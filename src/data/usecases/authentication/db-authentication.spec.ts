@@ -12,9 +12,6 @@ const makeFakeAccount = (): AccountModel => ({
   id: 'any_id',
   name: 'any_name',
   email: 'any_email@mail.com',
-  cnpj: 'any CNPJ',
-  phone: 'any Phone',
-  typeOfBusiness: 'any Type business',
   password: 'hashed_password',
   role: 'any_role'
 })

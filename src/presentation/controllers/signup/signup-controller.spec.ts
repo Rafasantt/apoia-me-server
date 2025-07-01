@@ -44,9 +44,6 @@ const makeFakeAccount = (): AccountModel => ({
   id: 'valid_id',
   name: 'valid_name',
   email: 'valid_email@mail.com',
-  cnpj: 'valid CNPJ',
-  phone: 'valid Phone',
-  typeOfBusiness: 'valid Type business',
   password: 'hashed_password',
   role: 'valid_role'
 })
@@ -55,9 +52,6 @@ const makeFakeRequest = (): httpRequest => ({
   body: {
     name: 'any_name',
     email: 'any_email@mail.com',
-    cnpj: 'any CNPJ',
-    phone: 'any Phone',
-    typeOfBusiness: 'any Type business',
     password: 'any_password',
     passwordConfirmation: 'any_password',
     role: 'valid_role'
@@ -92,9 +86,6 @@ describe('SignUp Controller', () => {
     expect(addSpy).toHaveBeenCalledWith({
       name: 'any_name',
       email: 'any_email@mail.com',
-      cnpj: 'any CNPJ',
-      phone: 'any Phone',
-      typeOfBusiness: 'any Type business',
       password: 'any_password',
       passwordConfirmation: 'any_password',
       role: 'valid_role'

@@ -6,7 +6,6 @@ import 'dotenv/config'
 import { AppDataSource } from '@/infra/db/postgres/data-source/data-source'
 import type { Repository } from 'typeorm'
 import Account from '@/infra/db/postgres/entities/Account'
-import Jwt from 'jsonwebtoken'
 
 let accountRepository: Repository<Account>
 
@@ -26,15 +25,10 @@ describe('Login Routes', () => {
 
   const createAccount = async () => {
     const password = await hash('1234', 12)
-    const tokenRecovery = Jwt.sign({ id: 'any_id' }, process.env.jwtSecret, { expiresIn: '15m' })
     const accountToBeInserted = accountRepository.create({
       name: 'Rafael',
       email: 'rafael@hotmail.com',
-      cnpj: '95.583.157/0001-01',
-      phone: '77988243220',
-      typeOfBusiness: 'E-commerce',
       password,
-      recoveryToken: tokenRecovery,
       role: 'admin'
     })
     await accountRepository.save(accountToBeInserted)

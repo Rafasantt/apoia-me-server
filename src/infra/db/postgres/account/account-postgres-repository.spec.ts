@@ -29,9 +29,6 @@ describe('Account PostgreSQL Repository', () => {
       const account = await sut.add({
         name: 'any_name',
         email: 'any_email@mail.com',
-        cnpj: 'any CNPJ',
-        phone: 'any Phone',
-        typeOfBusiness: 'any Type business',
         password: 'any_password',
         role: 'any_role'
       })
@@ -39,9 +36,6 @@ describe('Account PostgreSQL Repository', () => {
       expect(account.id).toBeTruthy()
       expect(account.name).toBe('any_name')
       expect(account.email).toBe('any_email@mail.com')
-      expect(account.cnpj).toBe('any CNPJ')
-      expect(account.phone).toBe('any Phone')
-      expect(account.typeOfBusiness).toBe('any Type business')
       expect(account.password).toBe('any_password')
       expect(account.role).toBe('any_role')
     })
@@ -53,9 +47,6 @@ describe('Account PostgreSQL Repository', () => {
       const accountToBeInserted = accountRepository.create({
         name: 'any_name',
         email: 'any_email@mail.com',
-        cnpj: 'any CNPJ',
-        phone: 'any Phone',
-        typeOfBusiness: 'any Type business',
         password: 'any_password',
         role: 'any_role'
       })
@@ -65,9 +56,6 @@ describe('Account PostgreSQL Repository', () => {
       expect(account.id).toBeTruthy()
       expect(account.name).toBe('any_name')
       expect(account.email).toBe('any_email@mail.com')
-      expect(account.cnpj).toBe('any CNPJ')
-      expect(account.phone).toBe('any Phone')
-      expect(account.typeOfBusiness).toBe('any Type business')
       expect(account.password).toBe('any_password')
       expect(account.role).toBe('any_role')
     })
@@ -85,9 +73,6 @@ describe('Account PostgreSQL Repository', () => {
       const accountToBeInserted = accountRepository.create({
         name: 'any_name',
         email: 'any_email@mail.com',
-        cnpj: 'any CNPJ',
-        phone: 'any Phone',
-        typeOfBusiness: 'any Type business',
         password: 'any_password',
         role: 'any_role'
       })
@@ -107,9 +92,6 @@ describe('Account PostgreSQL Repository', () => {
       const accountToBeInserted = accountRepository.create({
         name: 'any_name',
         email: 'any_email@mail.com',
-        cnpj: 'any CNPJ',
-        phone: 'any Phone',
-        typeOfBusiness: 'any Type business',
         password: 'any_password',
         role: 'any_role',
         accessToken: 'any_token'
@@ -120,9 +102,6 @@ describe('Account PostgreSQL Repository', () => {
       expect(account.id).toBeTruthy()
       expect(account.name).toBe('any_name')
       expect(account.email).toBe('any_email@mail.com')
-      expect(account.cnpj).toBe('any CNPJ')
-      expect(account.phone).toBe('any Phone')
-      expect(account.typeOfBusiness).toBe('any Type business')
       expect(account.password).toBe('any_password')
       expect(account.role).toBe('any_role')
     })
@@ -132,9 +111,6 @@ describe('Account PostgreSQL Repository', () => {
       const accountToBeInserted = accountRepository.create({
         name: 'any_name',
         email: 'any_email@mail.com',
-        cnpj: 'any CNPJ',
-        phone: 'any Phone',
-        typeOfBusiness: 'any Type business',
         password: 'any_password',
         role: 'admin',
         accessToken: 'any_token'
@@ -145,9 +121,6 @@ describe('Account PostgreSQL Repository', () => {
       expect(account.id).toBeTruthy()
       expect(account.name).toBe('any_name')
       expect(account.email).toBe('any_email@mail.com')
-      expect(account.cnpj).toBe('any CNPJ')
-      expect(account.phone).toBe('any Phone')
-      expect(account.typeOfBusiness).toBe('any Type business')
       expect(account.password).toBe('any_password')
       expect(account.role).toBe('admin')
     })
@@ -157,9 +130,6 @@ describe('Account PostgreSQL Repository', () => {
       const accountToBeInserted = accountRepository.create({
         name: 'any_name',
         email: 'any_email@mail.com',
-        cnpj: 'any CNPJ',
-        phone: 'any Phone',
-        typeOfBusiness: 'any Type business',
         password: 'any_password',
         role: 'any_role'
       })
@@ -173,9 +143,6 @@ describe('Account PostgreSQL Repository', () => {
       const accountToBeInserted = accountRepository.create({
         name: 'any_name',
         email: 'any_email@mail.com',
-        cnpj: 'any CNPJ',
-        phone: 'any Phone',
-        typeOfBusiness: 'any Type business',
         password: 'any_password',
         role: 'any_role',
         accessToken: 'any_token'
