@@ -1,0 +1,8 @@
+node_modules
+dist
+coverage
+migrations
+uploads
+jest-integration-config.ts
+jest-unit-config.ts
+jest.config.ts
