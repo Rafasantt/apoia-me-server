@@ -25,9 +25,6 @@ export class SignUpController implements Controller {
       const {
         name,
         email,
-        cnpj,
-        phone,
-        typeOfBusiness,
         password,
         passwordConfirmation,
         role
@@ -35,9 +32,6 @@ export class SignUpController implements Controller {
       const account = await this.addAccount.add({
         name,
         email,
-        cnpj,
-        phone,
-        typeOfBusiness,
         password,
         passwordConfirmation,
         role
