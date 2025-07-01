@@ -5,15 +5,13 @@ import type { AccountModel } from '@/domain/models/account'
 import type { AddAccountModel } from '@/domain/usecases/add-account'
 import type { LoadAccountByTokenRepository } from '@/data/protocols/db/account/load-account-by-token-repository'
 import { AppDataSource } from '../data-source/data-source'
-import type { LoadByTokenForgotPasswordRepository } from '@/data/protocols/db/account/load-by-token-forgot-password-repository'
 
 export class AccountPostgresRepository
 implements
     AddAccountRepository,
     LoadAccountByEmailRepository,
     UpdateAccessTokenRepository,
-    LoadAccountByTokenRepository,
-    LoadByTokenForgotPasswordRepository {
+    LoadAccountByTokenRepository {
   async add (accountData: AddAccountModel): Promise<AccountModel> {
     const accountRepository = AppDataSource.getRepository('accounts')
     const accountToBeInserted = accountRepository.create(accountData)
@@ -44,16 +42,5 @@ implements
       ]
     })) as AccountModel
     return account || null
-  }
-
-  async loadByTokenPassword (token: string): Promise<boolean> {
-    const accountRepository = AppDataSource.getRepository('accounts')
-    const account = await accountRepository.findOne({
-      where: { recoveryToken: token }
-    }) as AccountModel
-    if (account) {
-      return true
-    }
-    return null
   }
 }

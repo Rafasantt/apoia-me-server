@@ -12,15 +12,6 @@ export default class Account {
     email: string
 
   @Column({ type: 'text' })
-    cnpj: string
-
-  @Column({ type: 'text' })
-    phone: string
-
-  @Column({ type: 'text' })
-    typeOfBusiness: string
-
-  @Column({ type: 'text' })
     password: string
 
   @Column({ type: 'text' })
@@ -28,7 +19,4 @@ export default class Account {
 
   @Column({ type: 'text', nullable: true })
     accessToken: string
-
-  @Column({ type: 'text', nullable: true })
-    recoveryToken: string
 }
