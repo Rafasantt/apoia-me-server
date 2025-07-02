@@ -19,4 +19,7 @@ export default class Account {
 
   @Column({ type: 'text', nullable: true })
     accessToken: string
+
+  @Column({ type: 'text' })
+    userUrl: string
 }
