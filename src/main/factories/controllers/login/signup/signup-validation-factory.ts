@@ -12,9 +12,6 @@ export const makeSignUpValidation = (): ValidationComposite => {
   for (const field of [
     'name',
     'email',
-    'cnpj',
-    'phone',
-    'typeOfBusiness',
     'password',
     'passwordConfirmation',
     'role'

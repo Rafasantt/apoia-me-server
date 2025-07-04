@@ -4,13 +4,15 @@ import type {
   Controller,
   AddAccount,
   Validation,
-  Authentication
+  Authentication,
+  UrlGenerate
 } from './signup-controller-protocols'
 import { serverError, forbidden, noContent, badRequest } from '@/presentation/helpers/http/http-helper'
 import { EmailInUseError } from '@/presentation/errors'
 
 export class SignUpController implements Controller {
   constructor (
+    private readonly urlAccount: UrlGenerate,
     private readonly addAccount: AddAccount,
     private readonly validation: Validation,
     private readonly authentication: Authentication
@@ -22,6 +24,7 @@ export class SignUpController implements Controller {
       if (error) {
         return badRequest(error)
       }
+
       const {
         name,
         email,
@@ -29,12 +32,16 @@ export class SignUpController implements Controller {
         passwordConfirmation,
         role
       } = httpRequest.body
+
+      const userUrl = await this.urlAccount.generate(name)
+
       const account = await this.addAccount.add({
         name,
         email,
         password,
         passwordConfirmation,
-        role
+        role,
+        userUrl
       })
       if (!account) {
         return forbidden(new EmailInUseError())
