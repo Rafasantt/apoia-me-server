@@ -7,9 +7,21 @@ import type {
   httpRequest,
   Validation,
   Authentication,
-  AuthenticationModel
+  AuthenticationModel,
+  UrlGenerate
 } from './signup-controller-protocols'
 import { badRequest, forbidden, noContent, serverError } from '@/presentation/helpers/http/http-helper'
+
+const makeUrlGenerate = (): UrlGenerate => {
+  class UrlGenerateStub implements UrlGenerate {
+    async generate (name: string): Promise<string> {
+      return await new Promise(resolve => {
+        resolve('valid_userUrl')
+      })
+    }
+  }
+  return new UrlGenerateStub()
+}
 
 const makeAddAccount = (): AddAccount => {
   class AddAccountStub implements AddAccount {
@@ -45,7 +57,8 @@ const makeFakeAccount = (): AccountModel => ({
   name: 'valid_name',
   email: 'valid_email@mail.com',
   password: 'hashed_password',
-  role: 'valid_role'
+  role: 'valid_role',
+  userUrl: 'valid_userUrl'
 })
 
 const makeFakeRequest = (): httpRequest => ({
@@ -60,6 +73,7 @@ const makeFakeRequest = (): httpRequest => ({
 
 interface SutTypes {
   sut: SignUpController
+  urlGenerateStub: UrlGenerate
   addAccountStub: AddAccount
   validationStub: Validation
   authenticationStub: Authentication
@@ -67,11 +81,13 @@ interface SutTypes {
 
 const makeSut = (): SutTypes => {
   const authenticationStub = makeAuthentication()
+  const urlGenerateStub = makeUrlGenerate()
   const addAccountStub = makeAddAccount()
   const validationStub = makeValidation()
-  const sut = new SignUpController(addAccountStub, validationStub, authenticationStub)
+  const sut = new SignUpController(urlGenerateStub, addAccountStub, validationStub, authenticationStub)
   return {
     sut,
+    urlGenerateStub,
     addAccountStub,
     validationStub,
     authenticationStub
@@ -79,6 +95,13 @@ const makeSut = (): SutTypes => {
 }
 
 describe('SignUp Controller', () => {
+  test('Should call UrlGenerate with correct values', async () => {
+    const { sut, urlGenerateStub } = makeSut()
+    const generateSpy = jest.spyOn(urlGenerateStub, 'generate')
+    await sut.handle(makeFakeRequest())
+    expect(generateSpy).toHaveBeenCalledWith('any_name')
+  })
+
   test('Should call AddAccount with correct values', async () => {
     const { sut, addAccountStub } = makeSut()
     const addSpy = jest.spyOn(addAccountStub, 'add')
@@ -88,7 +111,8 @@ describe('SignUp Controller', () => {
       email: 'any_email@mail.com',
       password: 'any_password',
       passwordConfirmation: 'any_password',
-      role: 'valid_role'
+      role: 'valid_role',
+      userUrl: 'valid_userUrl'
     })
   })
 

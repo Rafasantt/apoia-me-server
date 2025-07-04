@@ -26,9 +26,6 @@ describe('SignUpValidation Factory', () => {
     for (const field of [
       'name',
       'email',
-      'cnpj',
-      'phone',
-      'typeOfBusiness',
       'password',
       'passwordConfirmation',
       'role'

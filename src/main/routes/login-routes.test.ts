@@ -6,6 +6,7 @@ import 'dotenv/config'
 import { AppDataSource } from '@/infra/db/postgres/data-source/data-source'
 import type { Repository } from 'typeorm'
 import Account from '@/infra/db/postgres/entities/Account'
+import * as crypto from 'crypto'
 
 let accountRepository: Repository<Account>
 
@@ -25,11 +26,15 @@ describe('Login Routes', () => {
 
   const createAccount = async () => {
     const password = await hash('1234', 12)
+    const cryptoId = crypto.randomBytes(8).toString('hex').slice(0, 12)
+    const userUrl = 'rafael-santos' + cryptoId
     const accountToBeInserted = accountRepository.create({
       name: 'Rafael',
       email: 'rafael@hotmail.com',
       password,
-      role: 'admin'
+      role: 'admin',
+      userUrl
+
     })
     await accountRepository.save(accountToBeInserted)
     return accountToBeInserted
@@ -58,9 +63,6 @@ describe('Login Routes', () => {
         .send({
           name: 'Novo User',
           email: 'novoUser@hotmail.com',
-          cnpj: '95.583.157/0001-01',
-          phone: '77988243220',
-          typeOfBusiness: 'E-commerce',
           password: 'abc123',
           passwordConfirmation: 'abc123',
           role: 'admin'

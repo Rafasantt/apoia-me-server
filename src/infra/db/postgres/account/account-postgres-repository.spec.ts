@@ -30,7 +30,8 @@ describe('Account PostgreSQL Repository', () => {
         name: 'any_name',
         email: 'any_email@mail.com',
         password: 'any_password',
-        role: 'any_role'
+        role: 'any_role',
+        userUrl: 'any_userUrl'
       })
       expect(account).toBeTruthy()
       expect(account.id).toBeTruthy()
@@ -38,6 +39,7 @@ describe('Account PostgreSQL Repository', () => {
       expect(account.email).toBe('any_email@mail.com')
       expect(account.password).toBe('any_password')
       expect(account.role).toBe('any_role')
+      expect(account.userUrl).toBe('any_userUrl')
     })
   })
 
@@ -48,7 +50,8 @@ describe('Account PostgreSQL Repository', () => {
         name: 'any_name',
         email: 'any_email@mail.com',
         password: 'any_password',
-        role: 'any_role'
+        role: 'any_role',
+        userUrl: 'any_userUrl'
       })
       await accountRepository.save(accountToBeInserted)
       const account = await sut.loadByEmail('any_email@mail.com')
@@ -58,6 +61,7 @@ describe('Account PostgreSQL Repository', () => {
       expect(account.email).toBe('any_email@mail.com')
       expect(account.password).toBe('any_password')
       expect(account.role).toBe('any_role')
+      expect(account.userUrl).toBe('any_userUrl')
     })
 
     test('Should return null if loadByEmail fails', async () => {
@@ -74,7 +78,8 @@ describe('Account PostgreSQL Repository', () => {
         name: 'any_name',
         email: 'any_email@mail.com',
         password: 'any_password',
-        role: 'any_role'
+        role: 'any_role',
+        userUrl: 'any_userUrl'
       })
       const savedAccount = await accountRepository.save(accountToBeInserted)
       await sut.updateAccessToken(savedAccount.id, 'any_token')
@@ -94,7 +99,8 @@ describe('Account PostgreSQL Repository', () => {
         email: 'any_email@mail.com',
         password: 'any_password',
         role: 'any_role',
-        accessToken: 'any_token'
+        accessToken: 'any_token',
+        userUrl: 'any_userUrl'
       })
       await accountRepository.save(accountToBeInserted)
       const account = await sut.loadByToken('any_token')
@@ -104,6 +110,7 @@ describe('Account PostgreSQL Repository', () => {
       expect(account.email).toBe('any_email@mail.com')
       expect(account.password).toBe('any_password')
       expect(account.role).toBe('any_role')
+      expect(account.userUrl).toBe('any_userUrl')
     })
 
     test('Should return an account on loadByToken with admin role', async () => {
@@ -113,7 +120,8 @@ describe('Account PostgreSQL Repository', () => {
         email: 'any_email@mail.com',
         password: 'any_password',
         role: 'admin',
-        accessToken: 'any_token'
+        accessToken: 'any_token',
+        userUrl: 'any_userUrl'
       })
       await accountRepository.save(accountToBeInserted)
       const account = await sut.loadByToken('any_token', 'admin')
@@ -123,6 +131,7 @@ describe('Account PostgreSQL Repository', () => {
       expect(account.email).toBe('any_email@mail.com')
       expect(account.password).toBe('any_password')
       expect(account.role).toBe('admin')
+      expect(account.userUrl).toBe('any_userUrl')
     })
 
     test('Should return null on loadByToken with invalid role', async () => {
@@ -131,7 +140,8 @@ describe('Account PostgreSQL Repository', () => {
         name: 'any_name',
         email: 'any_email@mail.com',
         password: 'any_password',
-        role: 'any_role'
+        role: 'any_role',
+        userUrl: 'any_userUrl'
       })
       await accountRepository.save(accountToBeInserted)
       const account = await sut.loadByToken('any_token', 'admin')
@@ -145,7 +155,8 @@ describe('Account PostgreSQL Repository', () => {
         email: 'any_email@mail.com',
         password: 'any_password',
         role: 'any_role',
-        accessToken: 'any_token'
+        accessToken: 'any_token',
+        userUrl: 'any_userUrl'
       })
       await accountRepository.save(accountToBeInserted)
       const account = await sut.loadByToken('any_token')
@@ -154,6 +165,7 @@ describe('Account PostgreSQL Repository', () => {
       expect(account.name).toBe('any_name')
       expect(account.email).toBe('any_email@mail.com')
       expect(account.password).toBe('any_password')
+      expect(account.userUrl).toBe('any_userUrl')
     })
 
     test('Should return null if loadByToken fails', async () => {
