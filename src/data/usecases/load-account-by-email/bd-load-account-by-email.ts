@@ -1,5 +1,4 @@
-import type { LoadAccountByEmail } from '@/domain/usecases/load-account-by-email'
-import type { LoadAccountByEmailRepository } from './bd-load-account-by-email-protocols'
+import type { LoadAccountByEmail, LoadAccountByEmailRepository } from './bd-load-account-by-email-protocols'
 
 export class DbLoadAccountByEmail implements LoadAccountByEmail {
   constructor (
