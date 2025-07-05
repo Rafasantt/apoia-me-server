@@ -1,9 +1,14 @@
 import type {
+  LoadAccountByUserUrlRepository,
   UrlGenerate
 } from './user-url-generate-protocols'
 import { randomBytes } from 'crypto'
 
 export class AccountUrl implements UrlGenerate {
+  constructor (
+    private readonly loadAccountByUserUrlRepository: LoadAccountByUserUrlRepository
+  ) {}
+
   async generate (name: string): Promise<string> {
     const baseUrl = name
       .toLowerCase()
@@ -14,7 +19,9 @@ export class AccountUrl implements UrlGenerate {
     const cryptoId = randomBytes(8).toString('hex').slice(0, 12)
     const userUrl = baseUrl + cryptoId
 
-    console.log(userUrl)
+    const existingUser = await this.loadAccountByUserUrlRepository.loadByUrl(userUrl)
+
+    console.log(existingUser)
 
     return 'ok'
   }
