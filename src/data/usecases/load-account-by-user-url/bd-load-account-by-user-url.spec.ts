@@ -38,7 +38,7 @@ const makeSut = (): SutTypes => {
   }
 }
 
-describe('DbAddAccount UseCase', () => {
+describe('DbLoadAccountByUserUrl UseCase', () => {
   test('Should call LoadAccountByUserUrlRepository with correct values', async () => {
     const { sut, loadAccountByUserUrlRepositoryStub } = makeSut()
     const loadByUserUrlSpy = jest.spyOn(
