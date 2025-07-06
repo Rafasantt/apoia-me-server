@@ -50,6 +50,14 @@ const makeSut = (): SutTypes => {
 }
 
 describe('AccountUrl UseCase', () => {
+  test('Should call LoadAccountByUserUrlRepository with correct values', async () => {
+    const { sut, loadAccountByUserUrlRepositoryStub } = makeSut()
+    const loadByUrlSpy = jest.spyOn(loadAccountByUserUrlRepositoryStub, 'loadByUrl')
+    await sut.generate('any_name')
+    const userUrl = makeExpectedUrl('any_name')
+    expect(loadByUrlSpy).toHaveBeenCalledWith(userUrl)
+  })
+
   test('Should return a valid userUrl on success', async () => {
     const { sut } = makeSut()
     const userUrl = await sut.generate('Rafael Santos')
