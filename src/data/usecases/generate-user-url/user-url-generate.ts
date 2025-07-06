@@ -19,10 +19,8 @@ export class AccountUrl implements UrlGenerate {
     const cryptoId = randomBytes(8).toString('hex').slice(0, 12)
     const userUrl = baseUrl + cryptoId
 
-    const existingUser = await this.loadAccountByUserUrlRepository.loadByUrl(userUrl)
+    await this.loadAccountByUserUrlRepository.loadByUrl(userUrl)
 
-    console.log(existingUser)
-
-    return 'ok'
+    return userUrl
   }
 }
