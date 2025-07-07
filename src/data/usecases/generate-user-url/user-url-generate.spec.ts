@@ -63,4 +63,15 @@ describe('AccountUrl UseCase', () => {
     const userUrl = await sut.generate('Rafael Santos')
     expect(userUrl).toBe(makeExpectedUrl('Rafael Santos'))
   })
+
+  test('Should throw if LoadAccountByUserUrlRepository throws', async () => {
+    const { sut, loadAccountByUserUrlRepositoryStub } = makeSut()
+    jest.spyOn(loadAccountByUserUrlRepositoryStub, 'loadByUrl').mockReturnValueOnce(
+      new Promise((resolve, reject) => {
+        reject(new Error())
+      })
+    )
+    const promise = sut.generate('any_name')
+    await expect(promise).rejects.toThrow()
+  })
 })
