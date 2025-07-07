@@ -7,7 +7,7 @@ Este é o backend do projeto Apoia-me, construído com Node.js, TypeScript, Post
     ├── data/                   # Casos de uso e lógica de dados
     ├── domain/                 # Entidades e interfaces de domínio
     ├── infra/                  # Implementações externas (DB, libs, etc.)
-    ├── main/                   # Configurações da aplicação (rotas, server, compisição das classes)
+    ├── main/                   # Configurações da aplicação (rotas, server, composição das classes)
     ├── presentation/           # Controllers e protocolos de entrada
     └── validation/             # Lógica de validações
 ```
