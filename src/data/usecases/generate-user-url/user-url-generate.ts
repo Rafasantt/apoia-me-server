@@ -9,17 +9,28 @@ export class AccountUrl implements UrlGenerate {
     private readonly loadAccountByUserUrlRepository: LoadAccountByUserUrlRepository
   ) {}
 
-  async generate (name: string): Promise<string> {
-    const baseUrl = name
+  private normalizeName (name: string): string {
+    return name
       .toLowerCase()
       .replace(/\s/g, '-')
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '')
+  }
 
-    const cryptoId = randomBytes(8).toString('hex').slice(0, 12)
-    const userUrl = baseUrl + cryptoId
+  private generateRandomId (): string {
+    return randomBytes(8).toString('hex').slice(0, 12)
+  }
 
-    await this.loadAccountByUserUrlRepository.loadByUrl(userUrl)
+  async generate (name: string): Promise<string> {
+    const baseUrl = this.normalizeName(name)
+    let userUrl: string
+    let existinUser = null
+
+    do {
+      const cryptoId = this.generateRandomId()
+      userUrl = `${baseUrl}${cryptoId}`
+      existinUser = await this.loadAccountByUserUrlRepository.loadByUrl(userUrl)
+    } while (existinUser)
 
     return userUrl
   }
