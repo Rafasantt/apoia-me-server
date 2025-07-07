@@ -7,6 +7,7 @@ const config: Config = {
     '!<rootDir>/src/main/**',
     '!<rootDir>/src/data/usecases/add-account/bd-add-account-protocols.ts',
     '!<rootDir>/src/presentation/controllers/signup/signup-protocols.ts',
+    '!<rootDir>/src/infra/db/postgres/migrations/**',
     '!<rootDir>/src/presentation/protocols/index.ts'
   ],
   transform: {
