@@ -22,4 +22,7 @@ export default class Account {
 
   @Column({ type: 'text' })
     userUrl: string
+
+  @Column({ type: 'text', nullable: true })
+    connectedStripeAccountId: string
 }
