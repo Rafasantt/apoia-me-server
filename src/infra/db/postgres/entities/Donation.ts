@@ -11,7 +11,7 @@ export default class Account {
   @Column({ type: 'text', nullable: true })
     message: string
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
     creatorId: string
 
   @Column({ type: 'text' })
