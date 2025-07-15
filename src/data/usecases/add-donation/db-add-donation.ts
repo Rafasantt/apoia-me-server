@@ -13,15 +13,17 @@ export class DbAddDonation implements AddDonation {
   ) {}
 
   async add (donationData: AddDonationModel): Promise<DonationModel> {
-    const account = await this.loadAccountBySlugRepository.loadBySlug(donationData.slug)
+    const account = await this.loadAccountBySlugRepository.loadBySlug(
+      donationData.slug
+    )
 
-    if (!account) {
-      return null
+    if (account) {
+      const newDonation = await this.addDonationRepository.add(
+        Object.assign({}, donationData, { creatorId: account.id })
+      )
+      return newDonation
     }
 
-    const newDonation = await this.addDonationRepository.add(
-      Object.assign({}, donationData, { creatorId: account.id })
-    )
-    return newDonation
+    return null
   }
 }
