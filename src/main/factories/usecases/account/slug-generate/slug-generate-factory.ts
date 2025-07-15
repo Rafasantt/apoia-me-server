@@ -1,4 +1,4 @@
-import type { SlugGenerate } from '@/domain/usecases/generate-slug'
+import type { SlugGenerate } from '@/domain/usecases/generate-user-url'
 import { AccountSlug } from '@/data/usecases/generate-slug/slug-generate'
 import { AccountPostgresRepository } from '@/infra/db/postgres/account/account-postgres-repository'
 

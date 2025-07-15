@@ -12,10 +12,16 @@ export class DbAddDonation implements AddDonation {
     private readonly addDonationRepository: AddDonationRepository
   ) {}
 
-  async add (accountData: AddDonationModel): Promise<DonationModel> {
-    await this.loadAccountBySlugRepository.loadBySlug(accountData.slug)
-    console.log('Account found with slug:', accountData.slug)
-    const newDonation = await this.addDonationRepository.add(accountData)
+  async add (donationData: AddDonationModel): Promise<DonationModel> {
+    const account = await this.loadAccountBySlugRepository.loadBySlug(donationData.slug)
+
+    if (!account) {
+      return null
+    }
+
+    const newDonation = await this.addDonationRepository.add(
+      Object.assign({}, donationData, { creatorId: account.id })
+    )
     return newDonation
   }
 }

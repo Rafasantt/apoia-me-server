@@ -9,5 +9,5 @@ export interface AddDonationModel {
 }
 
 export interface AddDonation {
-  add: (donation: AddDonationModel | any) => Promise<DonationModel>
+  add: (donationData: AddDonationModel | any) => Promise<DonationModel>
 }
