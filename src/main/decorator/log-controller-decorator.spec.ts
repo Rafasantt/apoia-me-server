@@ -46,7 +46,7 @@ const makeFakeAccount = (): AccountModel => ({
   email: 'valid_email@mail.com',
   password: 'hashed_password',
   role: 'valid_role',
-  userUrl: 'valid_userUrl'
+  slug: 'valid_slug'
 })
 
 const makeServerError = (): httpResponse => {

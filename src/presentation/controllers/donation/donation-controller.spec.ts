@@ -13,6 +13,15 @@ import {
   serverError
 } from '@/presentation/helpers/http/http-helper'
 
+const makeValidation = (): Validation => {
+  class ValidationStub implements Validation {
+    validate (input: any): Error {
+      return null
+    }
+  }
+  return new ValidationStub()
+}
+
 const makeAddDonation = (): AddDonation => {
   class AddDonationStub implements AddDonation {
     async add (account: AddDonationModel): Promise<DonationModel> {
@@ -22,15 +31,6 @@ const makeAddDonation = (): AddDonation => {
     }
   }
   return new AddDonationStub()
-}
-
-const makeValidation = (): Validation => {
-  class ValidationStub implements Validation {
-    validate (input: any): Error {
-      return null
-    }
-  }
-  return new ValidationStub()
 }
 
 const makeFakeDonation = (): DonationModel => ({

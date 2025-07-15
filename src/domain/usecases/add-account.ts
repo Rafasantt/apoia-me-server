@@ -5,7 +5,7 @@ export interface AddAccountModel {
   email: string
   role: string
   password: string
-  userUrl: string
+  slug: string
 }
 
 export interface AddAccount {

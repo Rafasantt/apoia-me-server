@@ -4,5 +4,5 @@ export interface AccountModel {
   email: string
   role: string
   password: string
-  userUrl: string
+  slug: string
 }

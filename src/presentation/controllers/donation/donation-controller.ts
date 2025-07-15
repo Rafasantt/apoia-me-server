@@ -24,8 +24,7 @@ export class DonationController implements Controller {
         return badRequest(error)
       }
 
-      const { name, message, slug, price } =
-        httpRequest.body
+      const { name, message, slug, price } = httpRequest.body
 
       await this.addDonation.add({
         name,

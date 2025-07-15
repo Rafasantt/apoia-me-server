@@ -21,7 +21,7 @@ export default class Account {
     accessToken: string
 
   @Column({ type: 'text' })
-    userUrl: string
+    slug: string
 
   @Column({ type: 'text', nullable: true })
     connectedStripeAccountId: string

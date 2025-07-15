@@ -1,9 +1,22 @@
 import { DbAddDonation } from './db-add-donation'
 import type {
+  AccountModel,
   AddDonationModel,
   AddDonationRepository,
-  DonationModel
+  DonationModel,
+  LoadAccountBySlugRepository
 } from './bd-add-donation-protocols'
+
+const makeLoadAccountBySlugRepository = (): LoadAccountBySlugRepository => {
+  class LoadAccountBySlugRepositoryStub implements LoadAccountBySlugRepository {
+    async loadBySlug (slug: string): Promise<AccountModel> {
+      return await new Promise(resolve => {
+        resolve(makeFakeAccount())
+      })
+    }
+  }
+  return new LoadAccountBySlugRepositoryStub()
+}
 
 const makeAddDonationRepository = (): AddDonationRepository => {
   class AddDonationRepositoryStub implements AddDonationRepository {
@@ -15,6 +28,15 @@ const makeAddDonationRepository = (): AddDonationRepository => {
   }
   return new AddDonationRepositoryStub()
 }
+
+const makeFakeAccount = (): AccountModel => ({
+  id: 'valid_id',
+  name: 'valid_name',
+  email: 'valid_email@mail.com',
+  password: 'hashed_password',
+  role: 'valid_role',
+  slug: 'valid_slug'
+})
 
 const makeFakeDonation = (): DonationModel => ({
   id: 'valid_id',
@@ -35,21 +57,32 @@ const makeFakeDonationData = (): AddDonationModel => ({
 
 interface SutTypes {
   sut: DbAddDonation
+  loadAccountBySlugRepositoryStub: LoadAccountBySlugRepository
   addDonationRepositoryStub: AddDonationRepository
 }
 
 const makeSut = (): SutTypes => {
+  const loadAccountBySlugRepositoryStub = makeLoadAccountBySlugRepository()
   const addDonationRepositoryStub = makeAddDonationRepository()
   const sut = new DbAddDonation(
+    loadAccountBySlugRepositoryStub,
     addDonationRepositoryStub
   )
   return {
     sut,
+    loadAccountBySlugRepositoryStub,
     addDonationRepositoryStub
   }
 }
 
 describe('DbAddDonation UseCase', () => {
+  test('Should call LoadAccountBySlug with correct values', async () => {
+    const { sut, loadAccountBySlugRepositoryStub } = makeSut()
+    const loadSpy = jest.spyOn(loadAccountBySlugRepositoryStub, 'loadBySlug')
+    await sut.add(makeFakeDonationData())
+    expect(loadSpy).toHaveBeenCalledWith('valid_slug')
+  })
+
   test('Should call AddDonationRepository with correct values', async () => {
     const { sut, addDonationRepositoryStub } = makeSut()
     const addSpy = jest.spyOn(addDonationRepositoryStub, 'add')

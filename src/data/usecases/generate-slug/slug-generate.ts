@@ -1,12 +1,12 @@
 import type {
-  LoadAccountByUserUrlRepository,
-  UrlGenerate
-} from './user-url-generate-protocols'
+  LoadAccountBySlugRepository,
+  SlugGenerate
+} from './slug-generate-protocols'
 import { randomBytes } from 'crypto'
 
-export class AccountUrl implements UrlGenerate {
+export class AccountSlug implements SlugGenerate {
   constructor (
-    private readonly loadAccountByUserUrlRepository: LoadAccountByUserUrlRepository
+    private readonly LoadAccountBySlugRepository: LoadAccountBySlugRepository
   ) {}
 
   private normalizeName (name: string): string {
@@ -22,16 +22,16 @@ export class AccountUrl implements UrlGenerate {
   }
 
   async generate (name: string): Promise<string> {
-    const baseUrl = this.normalizeName(name)
-    let userUrl: string
+    const baseSlug = this.normalizeName(name)
+    let slug: string
     let existinUser = null
 
     do {
       const cryptoId = this.generateRandomId()
-      userUrl = `${baseUrl}${cryptoId}`
-      existinUser = await this.loadAccountByUserUrlRepository.loadByUrl(userUrl)
+      slug = `${baseSlug}${cryptoId}`
+      existinUser = await this.LoadAccountBySlugRepository.loadBySlug(slug)
     } while (existinUser)
 
-    return userUrl
+    return slug
   }
 }

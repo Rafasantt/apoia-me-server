@@ -10,11 +10,12 @@ const makeFakeAccount = (): AccountModel => ({
   email: 'valid_email@mail.com',
   password: 'hashed_password',
   role: 'valid_role',
-  userUrl: 'valid_userUrl'
+  slug: 'valid_slug'
 })
 
 const makeLoadAccountByEmailRepository = (): LoadAccountByEmailRepository => {
-  class LoadAccountByEmailRepositoryStub implements LoadAccountByEmailRepository {
+  class LoadAccountByEmailRepositoryStub
+  implements LoadAccountByEmailRepository {
     async loadByEmail (email: string): Promise<AccountModel> {
       return await new Promise(resolve => {
         resolve(makeFakeAccount())
@@ -31,9 +32,7 @@ interface SutTypes {
 
 const makeSut = (): SutTypes => {
   const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepository()
-  const sut = new DbLoadAccountByEmail(
-    loadAccountByEmailRepositoryStub
-  )
+  const sut = new DbLoadAccountByEmail(loadAccountByEmailRepositoryStub)
   return {
     sut,
     loadAccountByEmailRepositoryStub
@@ -43,14 +42,23 @@ const makeSut = (): SutTypes => {
 describe('DbAddAccount UseCase', () => {
   test('Should call LoadAccountByEmailRepository with correct values', async () => {
     const { sut, loadAccountByEmailRepositoryStub } = makeSut()
-    const loadByEmailSpy = jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail')
+    const loadByEmailSpy = jest.spyOn(
+      loadAccountByEmailRepositoryStub,
+      'loadByEmail'
+    )
     await sut.load('any_email@mail.com')
     expect(loadByEmailSpy).toHaveBeenCalledWith('any_email@mail.com')
   })
 
   test('Should return null if LoadAccountByEmailRepository returns null', async () => {
     const { sut, loadAccountByEmailRepositoryStub } = makeSut()
-    jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail').mockReturnValueOnce(new Promise(resolve => { resolve(null) }))
+    jest
+      .spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail')
+      .mockReturnValueOnce(
+        new Promise(resolve => {
+          resolve(null)
+        })
+      )
     const account = await sut.load('any_email@mail.com')
     expect(account).toBeNull()
   })

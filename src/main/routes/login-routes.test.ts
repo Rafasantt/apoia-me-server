@@ -27,14 +27,13 @@ describe('Login Routes', () => {
   const createAccount = async () => {
     const password = await hash('1234', 12)
     const cryptoId = crypto.randomBytes(8).toString('hex').slice(0, 12)
-    const userUrl = 'rafael-santos' + cryptoId
+    const slug = 'rafael-santos' + cryptoId
     const accountToBeInserted = accountRepository.create({
       name: 'Rafael',
       email: 'rafael@hotmail.com',
       password,
       role: 'admin',
-      userUrl
-
+      slug
     })
     await accountRepository.save(accountToBeInserted)
     return accountToBeInserted

@@ -8,19 +8,24 @@ import type {
   Validation,
   Authentication,
   AuthenticationModel,
-  UrlGenerate
+  SlugGenerate
 } from './signup-controller-protocols'
-import { badRequest, forbidden, noContent, serverError } from '@/presentation/helpers/http/http-helper'
+import {
+  badRequest,
+  forbidden,
+  noContent,
+  serverError
+} from '@/presentation/helpers/http/http-helper'
 
-const makeUrlGenerate = (): UrlGenerate => {
-  class UrlGenerateStub implements UrlGenerate {
+const makeSlugGenerate = (): SlugGenerate => {
+  class SlugGenerateStub implements SlugGenerate {
     async generate (name: string): Promise<string> {
       return await new Promise(resolve => {
-        resolve('valid_userUrl')
+        resolve('valid_slug')
       })
     }
   }
-  return new UrlGenerateStub()
+  return new SlugGenerateStub()
 }
 
 const makeAddAccount = (): AddAccount => {
@@ -58,7 +63,7 @@ const makeFakeAccount = (): AccountModel => ({
   email: 'valid_email@mail.com',
   password: 'hashed_password',
   role: 'valid_role',
-  userUrl: 'valid_userUrl'
+  slug: 'valid_slug'
 })
 
 const makeFakeRequest = (): httpRequest => ({
@@ -73,7 +78,7 @@ const makeFakeRequest = (): httpRequest => ({
 
 interface SutTypes {
   sut: SignUpController
-  urlGenerateStub: UrlGenerate
+  slugGenerateStub: SlugGenerate
   addAccountStub: AddAccount
   validationStub: Validation
   authenticationStub: Authentication
@@ -81,13 +86,18 @@ interface SutTypes {
 
 const makeSut = (): SutTypes => {
   const authenticationStub = makeAuthentication()
-  const urlGenerateStub = makeUrlGenerate()
+  const slugGenerateStub = makeSlugGenerate()
   const addAccountStub = makeAddAccount()
   const validationStub = makeValidation()
-  const sut = new SignUpController(urlGenerateStub, addAccountStub, validationStub, authenticationStub)
+  const sut = new SignUpController(
+    slugGenerateStub,
+    addAccountStub,
+    validationStub,
+    authenticationStub
+  )
   return {
     sut,
-    urlGenerateStub,
+    slugGenerateStub,
     addAccountStub,
     validationStub,
     authenticationStub
@@ -95,9 +105,9 @@ const makeSut = (): SutTypes => {
 }
 
 describe('SignUp Controller', () => {
-  test('Should call UrlGenerate with correct values', async () => {
-    const { sut, urlGenerateStub } = makeSut()
-    const generateSpy = jest.spyOn(urlGenerateStub, 'generate')
+  test('Should call slugGenerate with correct values', async () => {
+    const { sut, slugGenerateStub } = makeSut()
+    const generateSpy = jest.spyOn(slugGenerateStub, 'generate')
     await sut.handle(makeFakeRequest())
     expect(generateSpy).toHaveBeenCalledWith('any_name')
   })
@@ -112,7 +122,7 @@ describe('SignUp Controller', () => {
       password: 'any_password',
       passwordConfirmation: 'any_password',
       role: 'valid_role',
-      userUrl: 'valid_userUrl'
+      slug: 'valid_slug'
     })
   })
 
@@ -135,7 +145,11 @@ describe('SignUp Controller', () => {
 
   test('Should return 404 if AddAccount returns null', async () => {
     const { sut, addAccountStub } = makeSut()
-    jest.spyOn(addAccountStub, 'add').mockReturnValueOnce(new Promise(resolve => { resolve(null) }))
+    jest.spyOn(addAccountStub, 'add').mockReturnValueOnce(
+      new Promise(resolve => {
+        resolve(null)
+      })
+    )
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(forbidden(new EmailInUseError()))
   })

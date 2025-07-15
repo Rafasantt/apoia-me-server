@@ -35,7 +35,7 @@ const makeFakeAccount = (): AccountModel => ({
   email: 'valid_email@mail.com',
   password: 'hashed_password',
   role: 'valid_role',
-  userUrl: 'valid_userUrl'
+  slug: 'valid_slug'
 })
 
 const makeFakeAccountData = (): AddAccountModel => ({
@@ -43,7 +43,7 @@ const makeFakeAccountData = (): AddAccountModel => ({
   email: 'valid_email@mail.com',
   password: 'valid_password',
   role: 'valid_role',
-  userUrl: 'valid_userUrl'
+  slug: 'valid_slug'
 })
 
 interface SutTypes {
@@ -106,7 +106,7 @@ describe('DbAddAccount UseCase', () => {
       email: 'valid_email@mail.com',
       password: 'hashed_password',
       role: 'valid_role',
-      userUrl: 'valid_userUrl'
+      slug: 'valid_slug'
     })
   })
 

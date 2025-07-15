@@ -1,3 +1,3 @@
-export interface UrlGenerate {
+export interface SlugGenerate {
   generate: (name: string) => Promise<string>
 }

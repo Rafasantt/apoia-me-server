@@ -14,7 +14,7 @@ const makeFakeAccount = (): AccountModel => ({
   email: 'any_email@mail.com',
   password: 'hashed_password',
   role: 'any_role',
-  userUrl: 'valid_userUrl'
+  slug: 'valid_slug'
 })
 
 const makeLoadAccountByEmailRepository = (): LoadAccountByEmailRepository => {
