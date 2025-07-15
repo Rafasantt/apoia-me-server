@@ -42,7 +42,7 @@ const makeFakeDonation = (): DonationModel => ({
   id: 'valid_id',
   name: 'valid_name',
   message: 'valid_message',
-  creatorId: 'valid_creatorId',
+  creatorId: 'valid_id',
   slug: 'valid_slug',
   price: 'valid_price'
 })
@@ -50,7 +50,7 @@ const makeFakeDonation = (): DonationModel => ({
 const makeFakeDonationData = (): AddDonationModel => ({
   name: 'valid_name',
   message: 'valid_message',
-  creatorId: 'valid_creatorId',
+  creatorId: 'valid_id',
   slug: 'valid_slug',
   price: 'valid_price'
 })
@@ -76,11 +76,18 @@ const makeSut = (): SutTypes => {
 }
 
 describe('DbAddDonation UseCase', () => {
-  test('Should call LoadAccountBySlug with correct values', async () => {
+  test('Should call LoadAccountBySlugRepositoryStub with correct values', async () => {
     const { sut, loadAccountBySlugRepositoryStub } = makeSut()
     const loadSpy = jest.spyOn(loadAccountBySlugRepositoryStub, 'loadBySlug')
     await sut.add(makeFakeDonationData())
     expect(loadSpy).toHaveBeenCalledWith('valid_slug')
+  })
+
+  test('Should return null if LoadAccountBySlugRepositoryStub returns null', async () => {
+    const { sut, loadAccountBySlugRepositoryStub } = makeSut()
+    jest.spyOn(loadAccountBySlugRepositoryStub, 'loadBySlug').mockReturnValueOnce(null)
+    const account = await sut.add(makeFakeDonationData())
+    expect(account).toBeNull()
   })
 
   test('Should call AddDonationRepository with correct values', async () => {
@@ -90,7 +97,7 @@ describe('DbAddDonation UseCase', () => {
     expect(addSpy).toHaveBeenCalledWith({
       name: 'valid_name',
       message: 'valid_message',
-      creatorId: 'valid_creatorId',
+      creatorId: 'valid_id',
       slug: 'valid_slug',
       price: 'valid_price'
     })
