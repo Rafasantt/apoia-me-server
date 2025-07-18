@@ -7,8 +7,7 @@ import type { LoadAccountByTokenRepository } from '@/data/protocols/db/account/l
 import type { LoadAccountBySlugRepository } from '@/data/usecases/load-account-by-slug/bd-load-account-by-slug-protocols'
 import { AppDataSource } from '../data-source/data-source'
 
-export class AccountPostgresRepository
-implements
+export class AccountPostgresRepository implements
     AddAccountRepository,
     LoadAccountByEmailRepository,
     UpdateAccessTokenRepository,

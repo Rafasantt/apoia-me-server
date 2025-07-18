@@ -1,5 +1,6 @@
 import type {
   AccountModel,
+  // AccountOnboardingRepository,
   AddAccount,
   AddAccountModel,
   AddAccountRepository,
@@ -10,8 +11,9 @@ import type {
 export class DbAddAccount implements AddAccount {
   constructor (
     private readonly hasher: Hasher,
-    private readonly addAccountRepository: AddAccountRepository,
-    private readonly loadAccountByEmailRepository: LoadAccountByEmailRepository
+    private readonly loadAccountByEmailRepository: LoadAccountByEmailRepository,
+    private readonly addAccountRepository: AddAccountRepository
+    // private readonly stripeOnboardingRepository: AccountOnboardingRepository
   ) {}
 
   async add (accountData: AddAccountModel): Promise<AccountModel> {
@@ -23,6 +25,7 @@ export class DbAddAccount implements AddAccount {
       const newAccount = await this.addAccountRepository.add(
         Object.assign({}, accountData, { password: hashedPassword })
       )
+      // const onboardingData = await this.stripeOnboardingRepository.onboarding(newAccount.id)
       return newAccount
     }
     return null
