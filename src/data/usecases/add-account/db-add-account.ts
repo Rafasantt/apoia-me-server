@@ -4,6 +4,7 @@ import type {
   AddAccount,
   AddAccountModel,
   AddAccountRepository,
+  // CreateAccountStripeRepository,
   Hasher,
   LoadAccountByEmailRepository
 } from './bd-add-account-protocols'
@@ -12,6 +13,7 @@ export class DbAddAccount implements AddAccount {
   constructor (
     private readonly hasher: Hasher,
     private readonly loadAccountByEmailRepository: LoadAccountByEmailRepository,
+    // private readonly createAccountStripeRepository: CreateAccountStripeRepository,
     private readonly addAccountRepository: AddAccountRepository
     // private readonly stripeOnboardingRepository: AccountOnboardingRepository
   ) {}
