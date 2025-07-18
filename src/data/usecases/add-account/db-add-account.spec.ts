@@ -5,6 +5,7 @@ import type {
   Hasher,
   AddAccountRepository,
   LoadAccountByEmailRepository
+  // AccountOnboardingRepository
 } from './bd-add-account-protocols'
 
 const makeHasher = (): Hasher => {
@@ -29,6 +30,17 @@ const makeAddAccountRepository = (): AddAccountRepository => {
   return new AddAccountRepositoryStub()
 }
 
+// const makeAccountOnboardingRepository = (): AccountOnboardingRepository => {
+//   class AccountOnboardingRepositoryStub implements AccountOnboardingRepository {
+//     async onboarding (accountId: string): Promise<string> {
+//       return await new Promise(resolve => {
+//         resolve('onboarding_url')
+//       })
+//     }
+//   }
+//   return new AccountOnboardingRepositoryStub()
+// }
+
 const makeFakeAccount = (): AccountModel => ({
   id: 'valid_id',
   name: 'valid_name',
@@ -51,18 +63,26 @@ interface SutTypes {
   hasherStub: Hasher
   addAccountRepositoryStub: AddAccountRepository
   loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository
+  // stripeOnboardingRepositoryStub: AccountOnboardingRepository
 }
 
 const makeSut = (): SutTypes => {
   const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepository()
   const hasherStub = makeHasher()
   const addAccountRepositoryStub = makeAddAccountRepository()
-  const sut = new DbAddAccount(hasherStub, addAccountRepositoryStub, loadAccountByEmailRepositoryStub)
+  // const stripeOnboardingRepositoryStub = makeAccountOnboardingRepository()
+  const sut = new DbAddAccount(
+    hasherStub,
+    loadAccountByEmailRepositoryStub,
+    addAccountRepositoryStub
+    // stripeOnboardingRepositoryStub
+  )
   return {
     sut,
     hasherStub,
-    addAccountRepositoryStub,
-    loadAccountByEmailRepositoryStub
+    loadAccountByEmailRepositoryStub,
+    addAccountRepositoryStub
+    // stripeOnboardingRepositoryStub
   }
 }
 
