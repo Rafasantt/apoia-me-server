@@ -38,7 +38,7 @@ const makeFakeDonation = (): DonationModel => ({
   name: 'valid_name',
   message: 'valid_message',
   slug: 'valid_slug',
-  price: 'valid_price'
+  price: 1500
 })
 
 const makeFakeRequest = (): httpRequest => ({
@@ -46,7 +46,7 @@ const makeFakeRequest = (): httpRequest => ({
     name: 'any_name',
     message: 'any_message',
     slug: 'any_slug',
-    price: 'any_price'
+    price: 15
   }
 })
 
@@ -59,10 +59,7 @@ interface SutTypes {
 const makeSut = (): SutTypes => {
   const validationStub = makeValidation()
   const addDonationStub = makeAddDonation()
-  const sut = new DonationController(
-    validationStub,
-    addDonationStub
-  )
+  const sut = new DonationController(validationStub, addDonationStub)
   return {
     sut,
     validationStub,
@@ -79,7 +76,7 @@ describe('Donation Controller', () => {
       name: 'any_name',
       message: 'any_message',
       slug: 'any_slug',
-      price: 'any_price'
+      price: 1500
     })
   })
 

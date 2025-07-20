@@ -17,6 +17,6 @@ export default class Account {
   @Column({ type: 'text' })
     slug: string
 
-  @Column({ type: 'text' })
-    price: string
+  @Column({ type: 'int' })
+    price: number
 }

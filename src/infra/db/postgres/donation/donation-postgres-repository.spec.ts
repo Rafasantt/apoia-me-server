@@ -31,7 +31,7 @@ describe('Account PostgreSQL Repository', () => {
         message: 'any_message',
         creatorId: 'any_creatorId',
         slug: 'any_slug',
-        price: 'any_price'
+        price: 1500
       })
       expect(account).toBeTruthy()
       expect(account.id).toBeTruthy()
@@ -39,7 +39,7 @@ describe('Account PostgreSQL Repository', () => {
       expect(account.message).toBe('any_message')
       expect(account.creatorId).toBe('any_creatorId')
       expect(account.slug).toBe('any_slug')
-      expect(account.price).toBe('any_price')
+      expect(account.price).toBe(1500)
     })
   })
 })

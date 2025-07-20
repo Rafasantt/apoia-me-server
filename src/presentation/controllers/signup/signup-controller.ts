@@ -52,7 +52,6 @@ export class SignUpController implements Controller {
       })
       return ok({ url: onboardingUrl.url })
     } catch (error) {
-      console.error(error)
       return serverError(error)
     }
   }

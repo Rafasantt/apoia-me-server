@@ -44,7 +44,7 @@ const makeFakeDonation = (): DonationModel => ({
   message: 'valid_message',
   creatorId: 'valid_id',
   slug: 'valid_slug',
-  price: 'valid_price'
+  price: 1500
 })
 
 const makeFakeDonationData = (): AddDonationModel => ({
@@ -52,7 +52,7 @@ const makeFakeDonationData = (): AddDonationModel => ({
   message: 'valid_message',
   creatorId: 'valid_id',
   slug: 'valid_slug',
-  price: 'valid_price'
+  price: 1500
 })
 
 interface SutTypes {
@@ -85,7 +85,9 @@ describe('DbAddDonation UseCase', () => {
 
   test('Should return null if LoadAccountBySlugRepositoryStub returns null', async () => {
     const { sut, loadAccountBySlugRepositoryStub } = makeSut()
-    jest.spyOn(loadAccountBySlugRepositoryStub, 'loadBySlug').mockReturnValueOnce(null)
+    jest
+      .spyOn(loadAccountBySlugRepositoryStub, 'loadBySlug')
+      .mockReturnValueOnce(null)
     const account = await sut.add(makeFakeDonationData())
     expect(account).toBeNull()
   })
@@ -99,7 +101,7 @@ describe('DbAddDonation UseCase', () => {
       message: 'valid_message',
       creatorId: 'valid_id',
       slug: 'valid_slug',
-      price: 'valid_price'
+      price: 1500
     })
   })
 

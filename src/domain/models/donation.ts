@@ -4,5 +4,5 @@ export interface DonationModel {
   message: string
   creatorId?: string
   slug: string
-  price: string
+  price: number
 }

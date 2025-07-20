@@ -5,7 +5,7 @@ export interface AddDonationModel {
   message: string
   creatorId: string
   slug: string
-  price: string
+  price: number
 }
 
 export interface AddDonation {
