@@ -11,9 +11,9 @@ import type {
   OnboardingUrl
 } from './signup-controller-protocols'
 import {
+  ok,
   badRequest,
   forbidden,
-  noContent,
   serverError
 } from '@/presentation/helpers/http/http-helper'
 
@@ -32,7 +32,7 @@ const makeAddAccount = (): AddAccount => {
   class AddAccountStub implements AddAccount {
     async add (account: AddAccountModel): Promise<OnboardingUrl> {
       return await new Promise(resolve => {
-        resolve({ url: 'valid_url' })
+        resolve({ url: 'valid_onboarding_url' })
       })
     }
   }
@@ -131,7 +131,7 @@ describe('SignUp Controller', () => {
   test('Should return 200 if valid data is provided', async () => {
     const { sut } = makeSut()
     const httpResponse = await sut.handle(makeFakeRequest())
-    expect(httpResponse).toEqual(noContent())
+    expect(httpResponse).toEqual(ok({ url: 'valid_onboarding_url' }))
   })
 
   test('Should return 404 if AddAccount returns null', async () => {

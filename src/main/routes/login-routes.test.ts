@@ -56,7 +56,7 @@ describe('Login Routes', () => {
     //     .expect(403)
     // })
 
-    test('Should return 204 on signup if account is created', async () => {
+    test('Should return 200 on signup if account is created', async () => {
       await request(app)
         .post('/api/signup')
         .send({
@@ -66,7 +66,7 @@ describe('Login Routes', () => {
           passwordConfirmation: 'abc123',
           role: 'admin'
         })
-        .expect(204)
+        .expect(200)
     })
   })
 

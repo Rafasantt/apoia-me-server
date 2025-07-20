@@ -10,7 +10,7 @@ import type {
 import {
   serverError,
   forbidden,
-  noContent,
+  ok,
   badRequest
 } from '@/presentation/helpers/http/http-helper'
 import { EmailInUseError } from '@/presentation/errors'
@@ -35,7 +35,7 @@ export class SignUpController implements Controller {
 
       const slug = await this.slugAccount.generate(name)
 
-      const account = await this.addAccount.add({
+      const onboardingUrl = await this.addAccount.add({
         name,
         email,
         password,
@@ -43,14 +43,14 @@ export class SignUpController implements Controller {
         role,
         slug
       })
-      if (!account) {
+      if (!onboardingUrl) {
         return forbidden(new EmailInUseError())
       }
       await this.authentication.auth({
         email,
         password
       })
-      return noContent()
+      return ok({ url: onboardingUrl.url })
     } catch (error) {
       console.error(error)
       return serverError(error)

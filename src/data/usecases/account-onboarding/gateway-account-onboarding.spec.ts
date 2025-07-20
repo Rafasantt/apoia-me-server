@@ -5,7 +5,7 @@ const makeAccountOnboardingRepository = (): AccountOnboardingRepository => {
   class AccountOnboardingRepositoryStub implements AccountOnboardingRepository {
     async onboarding (accountId: string): Promise<OnboardingUrl> {
       return await new Promise(resolve => {
-        resolve({ url: 'valid_url' })
+        resolve({ url: 'valid_onboarding_url' })
       })
     }
   }
@@ -50,6 +50,6 @@ describe('GatewayAccountOnboarding UseCase', () => {
   test('Should return an onboard url on success', async () => {
     const { sut } = makeSut()
     const account = await sut.onboarding('valid_account_id')
-    expect(account).toEqual({ url: 'valid_url' })
+    expect(account).toEqual({ url: 'valid_onboarding_url' })
   })
 })
