@@ -22,14 +22,16 @@ export class DbAddAccount implements AddAccount {
     const account = await this.loadAccountByEmailRepository.loadByEmail(
       accountData.email
     )
+
     if (!account) {
       const hashedPassword = await this.hasher.hash(accountData.password)
-      const accountStripeId = await this.createAccountStripeRepository.createAccount()
 
-      await this.stripeOnboardingRepository.onboarding(accountStripeId)
+      const connectedStripeAccountId = await this.createAccountStripeRepository.createAccount()
+
+      await this.stripeOnboardingRepository.onboarding(connectedStripeAccountId)
 
       const newAccount = await this.addAccountRepository.add(
-        Object.assign({}, accountData, { password: hashedPassword })
+        Object.assign({}, accountData, { password: hashedPassword, connectedStripeAccountId })
       )
       return newAccount
     }
