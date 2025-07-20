@@ -5,4 +5,5 @@ export interface AccountModel {
   role: string
   password: string
   slug: string
+  connectedStripeAccountId?: string
 }

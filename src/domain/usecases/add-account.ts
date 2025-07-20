@@ -6,6 +6,7 @@ export interface AddAccountModel {
   role: string
   password: string
   slug: string
+  connectedStripeAccountId?: string
 }
 
 export interface AddAccount {
