@@ -70,7 +70,8 @@ const makeFakeAccount = (): AccountModel => ({
   email: 'valid_email@mail.com',
   password: 'hashed_password',
   role: 'valid_role',
-  slug: 'valid_slug'
+  slug: 'valid_slug',
+  connectedStripeAccountId: 'valid_stripe_account_id'
 })
 
 const makeFakeAccountData = (): AddAccountModel => ({
@@ -78,7 +79,8 @@ const makeFakeAccountData = (): AddAccountModel => ({
   email: 'valid_email@mail.com',
   password: 'valid_password',
   role: 'valid_role',
-  slug: 'valid_slug'
+  slug: 'valid_slug',
+  connectedStripeAccountId: 'valid_stripe_account_id'
 })
 
 interface SutTypes {
@@ -178,7 +180,8 @@ describe('DbAddAccount UseCase', () => {
       email: 'valid_email@mail.com',
       password: 'hashed_password',
       role: 'valid_role',
-      slug: 'valid_slug'
+      slug: 'valid_slug',
+      connectedStripeAccountId: 'valid_stripe_account_id'
     })
   })
 
