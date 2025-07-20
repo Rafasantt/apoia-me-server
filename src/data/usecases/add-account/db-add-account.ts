@@ -4,7 +4,7 @@ import type {
   AddAccount,
   AddAccountModel,
   AddAccountRepository,
-  // CreateAccountStripeRepository,
+  CreateAccountStripeRepository,
   Hasher,
   LoadAccountByEmailRepository
 } from './bd-add-account-protocols'
@@ -13,7 +13,7 @@ export class DbAddAccount implements AddAccount {
   constructor (
     private readonly hasher: Hasher,
     private readonly loadAccountByEmailRepository: LoadAccountByEmailRepository,
-    // private readonly createAccountStripeRepository: CreateAccountStripeRepository,
+    private readonly createAccountStripeRepository: CreateAccountStripeRepository,
     private readonly addAccountRepository: AddAccountRepository
     // private readonly stripeOnboardingRepository: AccountOnboardingRepository
   ) {}
@@ -24,6 +24,8 @@ export class DbAddAccount implements AddAccount {
     )
     if (!account) {
       const hashedPassword = await this.hasher.hash(accountData.password)
+      await this.createAccountStripeRepository.createAccount()
+
       const newAccount = await this.addAccountRepository.add(
         Object.assign({}, accountData, { password: hashedPassword })
       )
