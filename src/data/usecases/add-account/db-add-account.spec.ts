@@ -35,7 +35,7 @@ const makeCreateAccountStripeRepository = (): CreateAccountStripeRepository => {
   class CreateAccountStripeRepositoryStub implements CreateAccountStripeRepository {
     async createAccount (): Promise<any> {
       return await new Promise(resolve => {
-        resolve({})
+        resolve('stripe_account_id')
       })
     }
   }
@@ -131,6 +131,13 @@ describe('DbAddAccount UseCase', () => {
     )
     const promise = sut.add(makeFakeAccountData())
     await expect(promise).rejects.toThrow()
+  })
+
+  test('Should call CreateAccountStripeRepository', async () => {
+    const { sut, createAccountStripeRepositoryStub } = makeSut()
+    const createSpy = jest.spyOn(createAccountStripeRepositoryStub, 'createAccount')
+    await sut.add(makeFakeAccountData())
+    expect(createSpy).toHaveBeenCalled()
   })
 
   test('Should call AddAccountRepository with correct values', async () => {
