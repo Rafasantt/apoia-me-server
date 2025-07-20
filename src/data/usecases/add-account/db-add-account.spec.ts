@@ -140,6 +140,17 @@ describe('DbAddAccount UseCase', () => {
     expect(createSpy).toHaveBeenCalled()
   })
 
+  test('Should throw if CreateAccountStripeRepository throws', async () => {
+    const { sut, createAccountStripeRepositoryStub } = makeSut()
+    jest.spyOn(createAccountStripeRepositoryStub, 'createAccount').mockReturnValueOnce(
+      new Promise((resolve, reject) => {
+        reject(new Error())
+      })
+    )
+    const promise = sut.add(makeFakeAccountData())
+    await expect(promise).rejects.toThrow()
+  })
+
   test('Should call AddAccountRepository with correct values', async () => {
     const { sut, addAccountRepositoryStub } = makeSut()
     const addSpy = jest.spyOn(addAccountRepositoryStub, 'add')
