@@ -1,3 +1,3 @@
 export interface AccountOnboardingRepository {
-  onboarding: (accountId: string) => Promise<string>
+  onboarding: (accountStripeId: string) => Promise<string>
 }
