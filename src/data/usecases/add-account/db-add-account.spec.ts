@@ -4,7 +4,8 @@ import type {
   AddAccountModel,
   Hasher,
   AddAccountRepository,
-  LoadAccountByEmailRepository
+  LoadAccountByEmailRepository,
+  CreateAccountStripeRepository
   // AccountOnboardingRepository
 } from './bd-add-account-protocols'
 
@@ -28,6 +29,17 @@ const makeAddAccountRepository = (): AddAccountRepository => {
     }
   }
   return new AddAccountRepositoryStub()
+}
+
+const makeCreateAccountStripeRepository = (): CreateAccountStripeRepository => {
+  class CreateAccountStripeRepositoryStub implements CreateAccountStripeRepository {
+    async createAccount (): Promise<any> {
+      return await new Promise(resolve => {
+        resolve({})
+      })
+    }
+  }
+  return new CreateAccountStripeRepositoryStub()
 }
 
 // const makeAccountOnboardingRepository = (): AccountOnboardingRepository => {
@@ -61,6 +73,7 @@ const makeFakeAccountData = (): AddAccountModel => ({
 interface SutTypes {
   sut: DbAddAccount
   hasherStub: Hasher
+  createAccountStripeRepositoryStub: CreateAccountStripeRepository
   addAccountRepositoryStub: AddAccountRepository
   loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository
   // stripeOnboardingRepositoryStub: AccountOnboardingRepository
@@ -69,11 +82,13 @@ interface SutTypes {
 const makeSut = (): SutTypes => {
   const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepository()
   const hasherStub = makeHasher()
+  const createAccountStripeRepositoryStub = makeCreateAccountStripeRepository()
   const addAccountRepositoryStub = makeAddAccountRepository()
   // const stripeOnboardingRepositoryStub = makeAccountOnboardingRepository()
   const sut = new DbAddAccount(
     hasherStub,
     loadAccountByEmailRepositoryStub,
+    createAccountStripeRepositoryStub,
     addAccountRepositoryStub
     // stripeOnboardingRepositoryStub
   )
@@ -81,6 +96,7 @@ const makeSut = (): SutTypes => {
     sut,
     hasherStub,
     loadAccountByEmailRepositoryStub,
+    createAccountStripeRepositoryStub,
     addAccountRepositoryStub
     // stripeOnboardingRepositoryStub
   }
