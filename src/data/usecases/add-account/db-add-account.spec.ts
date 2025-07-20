@@ -1,12 +1,13 @@
 import { DbAddAccount } from './db-add-account'
 import type {
-  AccountModel,
   AddAccountModel,
   Hasher,
   AddAccountRepository,
   LoadAccountByEmailRepository,
   CreateAccountStripeRepository,
-  AccountOnboardingRepository
+  AccountOnboardingRepository,
+  OnboardingUrl,
+  AccountModel
 } from './bd-add-account-protocols'
 
 jest.mock('stripe', () => {
@@ -46,7 +47,7 @@ const makeCreateAccountStripeRepository = (): CreateAccountStripeRepository => {
   class CreateAccountStripeRepositoryStub implements CreateAccountStripeRepository {
     async createAccount (): Promise<any> {
       return await new Promise(resolve => {
-        resolve('stripe_account_id')
+        resolve('valid_stripe_account_id')
       })
     }
   }
@@ -55,29 +56,29 @@ const makeCreateAccountStripeRepository = (): CreateAccountStripeRepository => {
 
 const makeAccountOnboardingRepository = (): AccountOnboardingRepository => {
   class AccountOnboardingRepositoryStub implements AccountOnboardingRepository {
-    async onboarding (accountId: string): Promise<string> {
+    async onboarding (accountId: string): Promise<OnboardingUrl> {
       return await new Promise(resolve => {
-        resolve('onboarding_url')
+        resolve({ url: 'valid_url' })
       })
     }
   }
   return new AccountOnboardingRepositoryStub()
 }
 
-const makeFakeAccount = (): AccountModel => ({
-  id: 'valid_id',
+const makeFakeAccountData = (): AddAccountModel => ({
   name: 'valid_name',
   email: 'valid_email@mail.com',
-  password: 'hashed_password',
+  password: 'valid_password',
   role: 'valid_role',
   slug: 'valid_slug',
   connectedStripeAccountId: 'valid_stripe_account_id'
 })
 
-const makeFakeAccountData = (): AddAccountModel => ({
+const makeFakeAccount = (): AccountModel => ({
+  id: 'valid_id',
   name: 'valid_name',
   email: 'valid_email@mail.com',
-  password: 'valid_password',
+  password: 'hashed_password',
   role: 'valid_role',
   slug: 'valid_slug',
   connectedStripeAccountId: 'valid_stripe_account_id'
@@ -196,10 +197,10 @@ describe('DbAddAccount UseCase', () => {
     await expect(promise).rejects.toThrow()
   })
 
-  test('Should return an account on success', async () => {
+  test('Should return an onboardingUrl on success', async () => {
     const { sut } = makeSut()
     const account = await sut.add(makeFakeAccountData())
-    expect(account).toEqual(makeFakeAccount())
+    expect(account).toEqual({ url: 'valid_url' })
   })
 
   test('Should return null if LoadAccountByEmailRepository not return null', async () => {

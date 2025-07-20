@@ -1,12 +1,12 @@
 import type {
-  AccountModel,
   AccountOnboardingRepository,
   AddAccount,
   AddAccountModel,
   AddAccountRepository,
   CreateAccountStripeRepository,
   Hasher,
-  LoadAccountByEmailRepository
+  LoadAccountByEmailRepository,
+  OnboardingUrl
 } from './bd-add-account-protocols'
 
 export class DbAddAccount implements AddAccount {
@@ -18,7 +18,7 @@ export class DbAddAccount implements AddAccount {
     private readonly addAccountRepository: AddAccountRepository
   ) {}
 
-  async add (accountData: AddAccountModel): Promise<AccountModel> {
+  async add (accountData: AddAccountModel): Promise<OnboardingUrl> {
     const account = await this.loadAccountByEmailRepository.loadByEmail(
       accountData.email
     )
@@ -28,12 +28,12 @@ export class DbAddAccount implements AddAccount {
 
       const connectedStripeAccountId = await this.createAccountStripeRepository.createAccount()
 
-      await this.stripeOnboardingRepository.onboarding(connectedStripeAccountId)
+      const onboardingUrl = await this.stripeOnboardingRepository.onboarding(connectedStripeAccountId)
 
-      const newAccount = await this.addAccountRepository.add(
+      await this.addAccountRepository.add(
         Object.assign({}, accountData, { password: hashedPassword, connectedStripeAccountId })
       )
-      return newAccount
+      return onboardingUrl
     }
     return null
   }

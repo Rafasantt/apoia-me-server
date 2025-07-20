@@ -1,11 +1,11 @@
 import { GatewayAccountOnboarding } from './gateway-account-onboarding'
-import type { AccountOnboardingRepository } from './gateway-account-onboarding-protocols'
+import type { AccountOnboardingRepository, OnboardingUrl } from './gateway-account-onboarding-protocols'
 
 const makeAccountOnboardingRepository = (): AccountOnboardingRepository => {
   class AccountOnboardingRepositoryStub implements AccountOnboardingRepository {
-    async onboarding (accountId: string): Promise<string> {
+    async onboarding (accountId: string): Promise<OnboardingUrl> {
       return await new Promise(resolve => {
-        resolve('valid_onboarding_url')
+        resolve({ url: 'valid_url' })
       })
     }
   }
@@ -50,6 +50,6 @@ describe('GatewayAccountOnboarding UseCase', () => {
   test('Should return an onboard url on success', async () => {
     const { sut } = makeSut()
     const account = await sut.onboarding('valid_account_id')
-    expect(account).toEqual('valid_onboarding_url')
+    expect(account).toEqual({ url: 'valid_url' })
   })
 })

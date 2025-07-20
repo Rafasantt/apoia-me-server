@@ -1,9 +1,9 @@
-import type { AccountOnboardingRepository } from '@/data/usecases/account-onboarding/gateway-account-onboarding-protocols'
+import type { AccountOnboardingRepository, OnboardingUrl } from '@/data/usecases/account-onboarding/gateway-account-onboarding-protocols'
 import { stripe } from '../config/stripe-config'
 
 export class StripeOnboardingRepository implements
   AccountOnboardingRepository {
-  async onboarding (accountId: string): Promise<string> {
+  async onboarding (accountId: string): Promise<OnboardingUrl> {
     console.log('chegou aqui')
     const accountLinkOnboarding = await stripe.accountLinks.create({
       account: accountId,
@@ -12,6 +12,6 @@ export class StripeOnboardingRepository implements
       type: 'account_onboarding'
     })
     console.log('Account link created:', accountLinkOnboarding.url)
-    return accountLinkOnboarding.url
+    return accountLinkOnboarding
   }
 }

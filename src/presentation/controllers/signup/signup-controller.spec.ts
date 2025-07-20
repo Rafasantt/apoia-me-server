@@ -1,14 +1,14 @@
 import { SignUpController } from './signup-controller'
 import { EmailInUseError, MissingParamError, ServerError } from '../../errors'
 import type {
-  AccountModel,
   AddAccount,
   AddAccountModel,
   httpRequest,
   Validation,
   Authentication,
   AuthenticationModel,
-  SlugGenerate
+  SlugGenerate,
+  OnboardingUrl
 } from './signup-controller-protocols'
 import {
   badRequest,
@@ -30,9 +30,9 @@ const makeSlugGenerate = (): SlugGenerate => {
 
 const makeAddAccount = (): AddAccount => {
   class AddAccountStub implements AddAccount {
-    async add (account: AddAccountModel): Promise<AccountModel> {
+    async add (account: AddAccountModel): Promise<OnboardingUrl> {
       return await new Promise(resolve => {
-        resolve(makeFakeAccount())
+        resolve({ url: 'valid_url' })
       })
     }
   }
@@ -56,15 +56,6 @@ const makeValidation = (): Validation => {
   }
   return new ValidationStub()
 }
-
-const makeFakeAccount = (): AccountModel => ({
-  id: 'valid_id',
-  name: 'valid_name',
-  email: 'valid_email@mail.com',
-  password: 'hashed_password',
-  role: 'valid_role',
-  slug: 'valid_slug'
-})
 
 const makeFakeRequest = (): httpRequest => ({
   body: {

@@ -1,6 +1,7 @@
 import type {
   AccountOnboardingRepository,
-  GatewayOnboarding
+  GatewayOnboarding,
+  OnboardingUrl
 } from './gateway-account-onboarding-protocols'
 
 export class GatewayAccountOnboarding implements GatewayOnboarding {
@@ -8,7 +9,7 @@ export class GatewayAccountOnboarding implements GatewayOnboarding {
     private readonly accountOnboardingRepository: AccountOnboardingRepository
   ) {}
 
-  async onboarding (accountId: string): Promise<string> {
+  async onboarding (accountId: string): Promise<OnboardingUrl> {
     return await this.accountOnboardingRepository.onboarding(accountId)
   }
 }

@@ -1,4 +1,4 @@
-import type { AccountModel } from '@/domain/models/account'
+import type { OnboardingUrl } from '@/domain/models/onboarding'
 
 export interface AddAccountModel {
   name: string
@@ -10,5 +10,5 @@ export interface AddAccountModel {
 }
 
 export interface AddAccount {
-  add: (account: AddAccountModel | any) => Promise<AccountModel>
+  add: (account: AddAccountModel | any) => Promise<OnboardingUrl>
 }

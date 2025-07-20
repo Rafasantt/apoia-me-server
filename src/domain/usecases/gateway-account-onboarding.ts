@@ -1,3 +1,5 @@
+import type { OnboardingUrl } from '../models/onboarding'
+
 export interface GatewayOnboarding {
-  onboarding: (accountId: string) => Promise<string>
+  onboarding: (accountId: string) => Promise<OnboardingUrl>
 }
