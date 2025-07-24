@@ -38,7 +38,9 @@ const makeFakeDonation = (): DonationModel => ({
   name: 'valid_name',
   message: 'valid_message',
   slug: 'valid_slug',
-  price: 1500
+  price: 1500,
+  creatorId: 'valid_id',
+  status: 'pending'
 })
 
 const makeFakeRequest = (): httpRequest => ({
