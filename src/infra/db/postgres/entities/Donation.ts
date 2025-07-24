@@ -19,4 +19,7 @@ export default class Account {
 
   @Column({ type: 'int' })
     price: number
+
+  @Column({ type: 'text', default: 'pending' })
+    status: string
 }
