@@ -101,7 +101,7 @@ describe('DbAddDonation UseCase', () => {
       message: 'valid_message',
       creatorId: 'valid_id',
       slug: 'valid_slug',
-      price: 1500
+      price: (1500 - Math.floor(1500 * 0.15))
     })
   })
 
