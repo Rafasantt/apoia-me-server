@@ -1,8 +1,9 @@
 import type { CreateCheckoutSessionRepository } from '@/data/protocols/payment-gateway/account/create-checkout-session-repository'
 import { stripe } from '../config/stripe-config'
+import type { checkoutSession } from '@/domain/models/checkoutSession'
 
 export class StripeCreateCheckoutSessionRepository implements CreateCheckoutSessionRepository {
-  async checkout (sessionData: any): Promise<any> {
+  async checkout (sessionData: checkoutSession): Promise<any> {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       mode: 'payment',
@@ -12,7 +13,7 @@ export class StripeCreateCheckoutSessionRepository implements CreateCheckoutSess
         price_data: {
           currency: 'brl',
           product_data: {
-            name: sessionData.name
+            name: 'Apoiar' + sessionData.name
           },
           unit_amount: sessionData.price
         },
@@ -21,11 +22,12 @@ export class StripeCreateCheckoutSessionRepository implements CreateCheckoutSess
       payment_intent_data: {
         application_fee_amount: sessionData.applicationFeeAmount,
         transfer_data: {
-          destination: sessionData.connectStripeAccountId
+          destination: sessionData.connectedStripeAccountId
         },
         metadata: {
           donorName: sessionData.name,
-          donorMessage: sessionData.message
+          donorMessage: sessionData.message,
+          donationId: sessionData.id
         }
       }
     })

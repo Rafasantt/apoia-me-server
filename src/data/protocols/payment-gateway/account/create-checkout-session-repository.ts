@@ -1,3 +1,5 @@
+import type { checkoutSession } from '@/domain/models/checkoutSession'
+
 export interface CreateCheckoutSessionRepository {
-  checkout: (sessionData: any) => Promise<any>
+  checkout: (sessionData: checkoutSession) => Promise<any>
 }

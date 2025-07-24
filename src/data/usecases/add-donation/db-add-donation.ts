@@ -18,9 +18,14 @@ export class DbAddDonation implements AddDonation {
     )
 
     if (account) {
-      const newDonation = await this.addDonationRepository.add(
-        Object.assign({}, donationData, { creatorId: account.id })
-      )
+      const applicationFeeAmount = Math.floor(donationData.price * 0.15)
+
+      const newDonation = await this.addDonationRepository.add({
+        ...donationData,
+        creatorId: account.id,
+        price: (donationData.price - applicationFeeAmount)
+      })
+
       return newDonation
     }
 
