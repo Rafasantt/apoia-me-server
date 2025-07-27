@@ -31,6 +31,6 @@ export class StripeCreateCheckoutSessionRepository implements CreateCheckoutSess
         }
       }
     })
-    return session
+    return session.id
   }
 }
