@@ -53,7 +53,7 @@ const makeFakeDonationData = (): AddDonationModel => ({
   message: 'valid_message',
   creatorId: 'valid_id',
   slug: 'valid_slug',
-  price: 1500
+  price: 15
 })
 
 interface SutTypes {

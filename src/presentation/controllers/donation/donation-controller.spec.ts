@@ -38,7 +38,7 @@ const makeFakeDonation = (): DonationModel => ({
   name: 'valid_name',
   message: 'valid_message',
   slug: 'valid_slug',
-  price: 1500,
+  price: 15,
   creatorId: 'valid_id',
   status: 'pending'
 })
@@ -78,7 +78,7 @@ describe('Donation Controller', () => {
       name: 'any_name',
       message: 'any_message',
       slug: 'any_slug',
-      price: 1500
+      price: 15
     })
   })
 

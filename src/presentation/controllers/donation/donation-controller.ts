@@ -25,13 +25,12 @@ export class DonationController implements Controller {
       }
 
       const { name, message, slug, price } = httpRequest.body
-      const convertedPrice = price * 100
 
       await this.addDonation.add({
         name,
         message,
         slug,
-        price: convertedPrice
+        price
       })
 
       return noContent()
