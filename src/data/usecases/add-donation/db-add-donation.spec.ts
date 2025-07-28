@@ -3,6 +3,8 @@ import type {
   AccountModel,
   AddDonationModel,
   AddDonationRepository,
+  checkoutSession,
+  CreateCheckoutSessionRepository,
   DonationModel,
   LoadAccountBySlugRepository
 } from './bd-add-donation-protocols'
@@ -27,6 +29,17 @@ const makeAddDonationRepository = (): AddDonationRepository => {
     }
   }
   return new AddDonationRepositoryStub()
+}
+
+const makeCreateCheckoutSessionRepository = (): CreateCheckoutSessionRepository => {
+  class CreateCheckoutSessionRepositoryStub implements CreateCheckoutSessionRepository {
+    async checkout (sessionData: checkoutSession): Promise<any> {
+      return await new Promise(resolve => {
+        resolve('valid_checkout_session_id')
+      })
+    }
+  }
+  return new CreateCheckoutSessionRepositoryStub()
 }
 
 const makeFakeAccount = (): AccountModel => ({
@@ -60,19 +73,23 @@ interface SutTypes {
   sut: DbAddDonation
   loadAccountBySlugRepositoryStub: LoadAccountBySlugRepository
   addDonationRepositoryStub: AddDonationRepository
+  createCheckoutSessionRepositoryStub: CreateCheckoutSessionRepository
 }
 
 const makeSut = (): SutTypes => {
   const loadAccountBySlugRepositoryStub = makeLoadAccountBySlugRepository()
   const addDonationRepositoryStub = makeAddDonationRepository()
+  const createCheckoutSessionRepositoryStub = makeCreateCheckoutSessionRepository()
   const sut = new DbAddDonation(
     loadAccountBySlugRepositoryStub,
-    addDonationRepositoryStub
+    addDonationRepositoryStub,
+    createCheckoutSessionRepositoryStub
   )
   return {
     sut,
     loadAccountBySlugRepositoryStub,
-    addDonationRepositoryStub
+    addDonationRepositoryStub,
+    createCheckoutSessionRepositoryStub
   }
 }
 
@@ -117,9 +134,9 @@ describe('DbAddDonation UseCase', () => {
     await expect(promise).rejects.toThrow()
   })
 
-  test('Should return an donation on success', async () => {
+  test('Should return an sesssionId on success', async () => {
     const { sut } = makeSut()
     const account = await sut.add(makeFakeDonationData())
-    expect(account).toEqual(makeFakeDonation())
+    expect(account).toEqual('valid_checkout_session_id')
   })
 })
