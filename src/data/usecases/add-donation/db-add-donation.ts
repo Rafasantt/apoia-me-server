@@ -2,6 +2,7 @@ import type {
   AddDonation,
   AddDonationModel,
   AddDonationRepository,
+  CreateCheckoutSessionRepository,
   DonationModel,
   LoadAccountBySlugRepository
 } from './bd-add-donation-protocols'
@@ -9,7 +10,8 @@ import type {
 export class DbAddDonation implements AddDonation {
   constructor (
     private readonly loadAccountBySlugRepository: LoadAccountBySlugRepository,
-    private readonly addDonationRepository: AddDonationRepository
+    private readonly addDonationRepository: AddDonationRepository,
+    private readonly createCheckoutSessionRepository: CreateCheckoutSessionRepository
   ) {}
 
   async add (donationData: AddDonationModel): Promise<DonationModel> {
@@ -28,7 +30,16 @@ export class DbAddDonation implements AddDonation {
         price: (convertedPrice - applicationFeeAmount)
       })
 
-      return newDonation
+      if (newDonation) {
+        const checkoutSession = await this.createCheckoutSessionRepository.checkout({
+          name: account.name,
+          price: convertedPrice,
+          applicationFeeAmount,
+          connectedStripeAccountId: account.connectedStripeAccountId,
+          donationId: newDonation.id
+        })
+        return checkoutSession
+      }
     }
 
     return null

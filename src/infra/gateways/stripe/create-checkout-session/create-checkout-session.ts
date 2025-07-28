@@ -25,9 +25,7 @@ export class StripeCreateCheckoutSessionRepository implements CreateCheckoutSess
           destination: sessionData.connectedStripeAccountId
         },
         metadata: {
-          donorName: sessionData.name,
-          donorMessage: sessionData.message,
-          donationId: sessionData.id
+          donationId: sessionData.donationId
         }
       }
     })

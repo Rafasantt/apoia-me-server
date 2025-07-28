@@ -1,6 +1,7 @@
-import type { DonationModel } from './donation'
-
-export interface checkoutSession extends DonationModel {
+export interface checkoutSession {
+  name: string
   connectedStripeAccountId: string
+  price: number
   applicationFeeAmount: number
+  donationId: string
 }
