@@ -1,3 +1,3 @@
 export interface UpdateDonationStatus {
-  update: (data: any | any) => Promise<any>
+  update: (data: any) => Promise<any>
 }
