@@ -1,9 +1,9 @@
 import 'dotenv/config'
 import { stripe } from '../config/stripe-config'
-import type { WebHookDataEventsRepository } from '@/data/protocols/payment-gateway/payment/webHook-data-events-repository'
+import type { GetDataEventsRepository } from '@/data/protocols/payment-gateway/payment'
 import type Stripe from 'stripe'
 
-export class GetStripeDadaPaymentRepository implements WebHookDataEventsRepository {
+export class GetStripeDadaPaymentRepository implements GetDataEventsRepository {
   async paymentIntent (event: any): Promise<any> {
     const session = event.data.object as Stripe.Checkout.Session
     const paymentIdentId = session.payment_intent as string
