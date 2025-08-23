@@ -4,6 +4,8 @@ import { adaptRoute } from '../adapters/express-route-adapter'
 import { makeSignUpController } from '../factories/controllers/login/signup/signup-controller-factory'
 import { makeLoginController } from '../factories/controllers/login/login/login-controller-factory'
 import { makeDonationController } from '../factories/controllers/login/donation/donation-controller-factory'
+import { makeUpdateStatusDonationController } from '../factories/controllers/login/update-status-donation/donation-controller-factory'
+import { adaptWebhookRoute } from '../adapters/express-route-adapter-test'
 // import { adaptMiddleware } from '../adapters/express-middleware-adapter'
 // import { makeAuthMiddleware } from '../factories/middlewares/auth-middleware-factory'
 
@@ -12,4 +14,5 @@ export default (router: Router): void => {
   router.post('/signup', adaptRoute(makeSignUpController()))
   router.post('/login', adaptRoute(makeLoginController()))
   router.post('/donation', adaptRoute(makeDonationController()))
+  router.post('/webhooks/stripe', adaptWebhookRoute(makeUpdateStatusDonationController()))
 }

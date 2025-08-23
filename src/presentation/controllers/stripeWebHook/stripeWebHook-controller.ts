@@ -16,7 +16,7 @@ export class StripeWebHookController implements Controller {
 
   async handle (httpRequest: httpRequest): Promise<httpResponse> {
     try {
-      await this.updateDonationStatus.update(httpRequest)
+      await this.updateDonationStatus.update(httpRequest.body)
 
       return noContent()
     } catch (error) {

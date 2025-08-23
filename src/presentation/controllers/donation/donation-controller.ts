@@ -7,8 +7,8 @@ import type {
 } from './donation-controller-protocols'
 import {
   serverError,
-  noContent,
-  badRequest
+  badRequest,
+  ok
 } from '@/presentation/helpers/http/http-helper'
 
 export class DonationController implements Controller {
@@ -26,14 +26,14 @@ export class DonationController implements Controller {
 
       const { name, message, slug, price } = httpRequest.body
 
-      await this.addDonation.add({
+      const sessionId = await this.addDonation.add({
         name,
         message,
         slug,
         price
       })
 
-      return noContent()
+      return ok({ sessionId })
     } catch (error) {
       return serverError(error)
     }

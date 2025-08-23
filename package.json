@@ -15,7 +15,8 @@
     "test:integration": "npm test -- -c jest-integration-config.ts",
     "test:staged": "jest --passWithNoTests --no-cache",
     "test:ci": "npm test -- --coverage",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "stripe:listen": "stripe listen --forward-to localhost:5050/api/webhooks/stripe"
   },
   "keywords": [],
   "author": "",

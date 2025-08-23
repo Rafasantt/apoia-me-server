@@ -1,23 +1,20 @@
 import type {
   GetDataEventsRepository,
-  UpdateDonationStatus,
-  WebHookEventsRepository
+  UpdateDonationStatus
 } from './db-update-donation-status-protocols'
 
 export class DbAUpdateDonationStatus implements UpdateDonationStatus {
   constructor (
-    private readonly webHookEventsRepository: WebHookEventsRepository,
     private readonly getDataEventsRepository: GetDataEventsRepository
   ) {}
 
   async update (data: any | any): Promise<any> {
-    const event = await this.webHookEventsRepository.event(data)
+    const paymentIntent = await this.getDataEventsRepository.paymentIntent(data)
+    console.log(paymentIntent.metadata?.donationId)
 
-    const paymentIntent = await this.getDataEventsRepository.paymentIntent(event)
-    console.log(paymentIntent)
-
-    switch (event.type) {
+    switch (data.type) {
       case 'checkout.session.completed':
+        console.log('Pagamento recebido com sucesso!')
     }
   }
 }
