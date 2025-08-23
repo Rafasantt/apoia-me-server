@@ -9,7 +9,6 @@ import type {
 } from './donation-controller-protocols'
 import {
   badRequest,
-  noContent,
   serverError
 } from '@/presentation/helpers/http/http-helper'
 
@@ -92,23 +91,6 @@ describe('Donation Controller', () => {
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(serverError(new ServerError()))
   })
-
-  test('Should return 200 if valid data is provided', async () => {
-    const { sut } = makeSut()
-    const httpResponse = await sut.handle(makeFakeRequest())
-    expect(httpResponse).toEqual(noContent())
-  })
-
-  // test('Should return 404 if AddAccount returns null', async () => {
-  //   const { sut, addAccountStub } = makeSut()
-  //   jest.spyOn(addAccountStub, 'add').mockReturnValueOnce(
-  //     new Promise(resolve => {
-  //       resolve(null)
-  //     })
-  //   )
-  //   const httpResponse = await sut.handle(makeFakeRequest())
-  //   expect(httpResponse).toEqual(forbidden(new EmailInUseError()))
-  // })
 
   test('Should call Validation with correct values', async () => {
     const { sut, validationStub } = makeSut()

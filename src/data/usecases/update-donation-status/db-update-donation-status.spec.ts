@@ -1,49 +1,48 @@
 import { DbAUpdateDonationStatus } from './db-update-donation-status'
-import type { GetDataEventsRepository, WebHookEventsRepository } from './db-update-donation-status-protocols'
-
-const makeWebHookEventsRepository = (): WebHookEventsRepository => {
-  class WebHookEventsRepositoryStub implements WebHookEventsRepository {
-    async event (data: any): Promise<any> {
-      return await new Promise(resolve => { resolve({ type: 'checkout.session.completed' }) })
-    }
-  }
-  return new WebHookEventsRepositoryStub()
-}
+import type { GetDataEventsRepository } from './db-update-donation-status-protocols'
 
 const makeGetDataEventsRepository = (): GetDataEventsRepository => {
   class GetDataEventsRepositoryStub implements GetDataEventsRepository {
     async paymentIntent (event: any): Promise<any> {
-      return await new Promise(resolve => { resolve({ id: 'pi_123', status: 'succeeded' }) })
+      return await new Promise(resolve => {
+        resolve(fakeEvent())
+      })
     }
   }
   return new GetDataEventsRepositoryStub()
 }
 
+const fakeEvent = (): any => ({
+  id: 'evt_123',
+  type: 'checkout.session.completed',
+  data: {
+    object: {
+      metadata: {
+        donationId: 'valid_paymentIntent'
+      }
+    }
+  }
+})
+
 interface SutTypes {
   sut: DbAUpdateDonationStatus
-  webHookEventsRepositoryStub: WebHookEventsRepository
   getDataEventsRepositoryStub: GetDataEventsRepository
 }
 
 const makeSut = (): SutTypes => {
-  const webHookEventsRepositoryStub = makeWebHookEventsRepository()
   const getDataEventsRepositoryStub = makeGetDataEventsRepository()
-  const sut = new DbAUpdateDonationStatus(
-    webHookEventsRepositoryStub,
-    getDataEventsRepositoryStub
-  )
+  const sut = new DbAUpdateDonationStatus(getDataEventsRepositoryStub)
   return {
     sut,
-    webHookEventsRepositoryStub,
     getDataEventsRepositoryStub
   }
 }
 
 describe('DbAddDonation UseCase', () => {
-  test('Should call WebHookEventsRepository with correct data', async () => {
-    const { sut, webHookEventsRepositoryStub } = makeSut()
-    const eventSpy = jest.spyOn(webHookEventsRepositoryStub, 'event')
-    await sut.update({ id: 'evt_123' })
-    expect(eventSpy).toHaveBeenCalledWith({ id: 'evt_123' })
+  test('Should call GetDataEventsRepository with correct data', async () => {
+    const { sut, getDataEventsRepositoryStub } = makeSut()
+    const eventSpy = jest.spyOn(getDataEventsRepositoryStub, 'paymentIntent')
+    await sut.update(fakeEvent())
+    expect(eventSpy).toHaveBeenCalledWith(fakeEvent())
   })
 })

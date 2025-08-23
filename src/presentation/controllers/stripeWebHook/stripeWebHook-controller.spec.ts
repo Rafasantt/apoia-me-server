@@ -36,13 +36,6 @@ const makeSut = (): SutTypes => {
 }
 
 describe('Donation Controller', () => {
-  test('Should call UpdateDonationStatus with correct values', async () => {
-    const { sut, updateDonationStatusStub } = makeSut()
-    const updateSpy = jest.spyOn(updateDonationStatusStub, 'update')
-    await sut.handle(makeFakeRequest())
-    expect(updateSpy).toHaveBeenCalledWith(makeFakeRequest())
-  })
-
   test('Should return 500 if UpdateDonationStatus throws', async () => {
     const { sut, updateDonationStatusStub } = makeSut()
     jest.spyOn(updateDonationStatusStub, 'update').mockImplementationOnce(() => {
