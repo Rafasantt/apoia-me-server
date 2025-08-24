@@ -1,0 +1,11 @@
+# Ignora arquivos de log
+*.log
+# Ignora o diretório node_modules
+node_modules/
+# Ignora o diretório dist
+dist/
+# Ignora arquivos temporários ou de cache
+.tmp/
+.cache/
+# Ignora o arquivo .env
+.env

@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node dist/main/server.js",
     "build": "rimraf dist && tsc",
+    "start:dev": "npm run migration:run && npm run dev",
     "dev": "ts-node src/main/server.ts",
     "migration:generate": "typeorm-ts-node-commonjs -d src/infra/db/postgres/data-source/data-source.ts migration:generate src/infra/db/postgres/migrations/default",
     "migration:run": "typeorm-ts-node-commonjs -d src/infra/db/postgres/data-source/data-source.ts migration:run",
