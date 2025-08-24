@@ -1,3 +1,5 @@
+import type { UpdateDonationModel } from '@/domain/models/updateDonation'
+
 export interface UpdateDonationRepository {
-  update: (donationData: { donationId: string, donationStatus: string }) => Promise<any>
+  update: (updateData: UpdateDonationModel) => Promise<any>
 }

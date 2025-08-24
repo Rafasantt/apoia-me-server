@@ -13,12 +13,15 @@ export class DbAUpdateDonationStatus implements UpdateDonationStatus {
   async update (data: any | any): Promise<any> {
     const paymentIntent = await this.getDataEventsRepository.paymentIntent(data)
 
+    const updateData = {
+      id: paymentIntent.metadata?.donationId,
+      status: 'paid'
+    }
+
     switch (data.type) {
       case 'checkout.session.completed':
-        await this.updateDonationRepository.update({
-          donationId: paymentIntent.metadata?.donationId,
-          donationStatus: 'paid'
-        })
+        await this.updateDonationRepository.update(updateData)
+        break
     }
   }
 }
