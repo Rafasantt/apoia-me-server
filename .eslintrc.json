@@ -2,7 +2,7 @@
   "extends":"standard-with-typescript",
   "parserOptions": {
     "project": [
-    "apoia-me-server/tsconfig.json",
+    "./tsconfig.json",
     "apoia-me-server/tsconfig.jest.json"
     ]
   },

@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import Donation from './Donation'
 
 @Entity('accounts')
 export default class Account {
@@ -25,4 +26,7 @@ export default class Account {
 
   @Column({ type: 'text', nullable: true })
     connectedStripeAccountId: string
+
+  @OneToMany(() => Donation, donation => donation.creatorId)
+    donations: Donation[]
 }

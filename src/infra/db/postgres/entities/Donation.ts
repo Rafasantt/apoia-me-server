@@ -1,7 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import Account from './Account'
 
 @Entity('donations')
-export default class Account {
+export default class Donation {
   @PrimaryGeneratedColumn('uuid')
     id: string
 
@@ -11,9 +12,6 @@ export default class Account {
   @Column({ type: 'text', nullable: true })
     message: string
 
-  @Column({ type: 'text', nullable: true })
-    creatorId: string
-
   @Column({ type: 'text' })
     slug: string
 
@@ -22,4 +20,8 @@ export default class Account {
 
   @Column({ type: 'text', default: 'pending' })
     status: string
+
+  @ManyToOne(() => Account, account => account.donations, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'creatorId' })
+    creatorId: string
 }
