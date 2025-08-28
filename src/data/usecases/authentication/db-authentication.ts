@@ -26,8 +26,8 @@ export class DbAuthentication implements Authentication {
         await this.updateAccessTokenRepository.updateAccessToken(account.id, accessToken)
 
         const fullAccount = await this.getAccountByIdRepository.getAccount(account.id)
-        console.log(fullAccount)
-        return { accessToken, slug: account.slug }
+        const { role, password, ...data } = fullAccount
+        return data
       }
     }
     return null
