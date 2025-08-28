@@ -1,3 +1,5 @@
+import type { DonationModel } from './donation'
+
 export interface AccountModel {
   id: string
   name: string
@@ -6,4 +8,8 @@ export interface AccountModel {
   password: string
   slug: string
   connectedStripeAccountId?: string
+}
+
+export interface AccountWithDonationsModel extends AccountModel {
+  donations: DonationModel[]
 }

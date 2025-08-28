@@ -1,10 +1,11 @@
 import type { AddAccountRepository } from '@/data/protocols/db/account/add-account-repository'
 import type { LoadAccountByEmailRepository } from '@/data/protocols/db/account/load-account-by-email-repository'
 import type { UpdateAccessTokenRepository } from '@/data/protocols/db/account/update-access-token-repository'
-import type { AccountModel } from '@/domain/models/account'
+import type { AccountModel, AccountWithDonationsModel } from '@/domain/models/account'
 import type { AddAccountModel } from '@/domain/usecases/add-account'
 import type { LoadAccountByTokenRepository } from '@/data/protocols/db/account/load-account-by-token-repository'
 import type { LoadAccountBySlugRepository } from '@/data/usecases/load-account-by-slug/bd-load-account-by-slug-protocols'
+import type { GetAccountByIdRepository } from '@/data/usecases/authentication/db-authentication-protocols'
 import { AppDataSource } from '../data-source/data-source'
 
 export class AccountPostgresRepository implements
@@ -12,7 +13,8 @@ export class AccountPostgresRepository implements
     LoadAccountByEmailRepository,
     UpdateAccessTokenRepository,
     LoadAccountByTokenRepository,
-    LoadAccountBySlugRepository {
+    LoadAccountBySlugRepository,
+    GetAccountByIdRepository {
   async add (accountData: AddAccountModel): Promise<AccountModel> {
     const accountRepository = AppDataSource.getRepository('accounts')
     const accountToBeInserted = accountRepository.create(accountData)
@@ -50,6 +52,15 @@ export class AccountPostgresRepository implements
     const account = (await accountRepository.findOne({
       where: { slug }
     })) as AccountModel
+    return account || null
+  }
+
+  async getAccount (id: string): Promise<AccountWithDonationsModel> {
+    const accountRepository = AppDataSource.getRepository('accounts')
+    const account = (await accountRepository.findOne({
+      where: { id },
+      relations: { donations: true }
+    })) as AccountWithDonationsModel
     return account || null
   }
 }

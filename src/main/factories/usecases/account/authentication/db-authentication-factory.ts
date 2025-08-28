@@ -14,6 +14,7 @@ export const makeDbAuthentication = (): Authentication => {
     accountPostgresRepository,
     bcryptAdapter,
     jwtAdapter,
+    accountPostgresRepository,
     accountPostgresRepository
   )
 }
