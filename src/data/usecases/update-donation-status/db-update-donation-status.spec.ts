@@ -1,5 +1,6 @@
+import type { UpdateDonationModel } from '@/domain/models/updateDonation'
 import { DbAUpdateDonationStatus } from './db-update-donation-status'
-import type { GetDataEventsRepository } from './db-update-donation-status-protocols'
+import type { GetDataEventsRepository, UpdateDonationRepository } from './db-update-donation-status-protocols'
 
 const makeGetDataEventsRepository = (): GetDataEventsRepository => {
   class GetDataEventsRepositoryStub implements GetDataEventsRepository {
@@ -10,6 +11,15 @@ const makeGetDataEventsRepository = (): GetDataEventsRepository => {
     }
   }
   return new GetDataEventsRepositoryStub()
+}
+
+const makeUpdateDonationRepository = (): UpdateDonationRepository => {
+  class UpdateDonationRepositoryStub implements UpdateDonationRepository {
+    async update (updateData: UpdateDonationModel): Promise<any> {
+      await new Promise<void>(resolve => { resolve() })
+    }
+  }
+  return new UpdateDonationRepositoryStub()
 }
 
 const fakeEvent = (): any => ({
@@ -27,14 +37,20 @@ const fakeEvent = (): any => ({
 interface SutTypes {
   sut: DbAUpdateDonationStatus
   getDataEventsRepositoryStub: GetDataEventsRepository
+  updateDonationRepositoryStub: UpdateDonationRepository
 }
 
 const makeSut = (): SutTypes => {
   const getDataEventsRepositoryStub = makeGetDataEventsRepository()
-  const sut = new DbAUpdateDonationStatus(getDataEventsRepositoryStub)
+  const updateDonationRepositoryStub = makeUpdateDonationRepository()
+  const sut = new DbAUpdateDonationStatus(
+    getDataEventsRepositoryStub,
+    updateDonationRepositoryStub
+  )
   return {
     sut,
-    getDataEventsRepositoryStub
+    getDataEventsRepositoryStub,
+    updateDonationRepositoryStub
   }
 }
 
