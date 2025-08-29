@@ -226,4 +226,11 @@ describe('DbAuthentication UseCase', () => {
     const promise = sut.auth(makeFakeAuthentication())
     await expect(promise).rejects.toThrow()
   })
+
+  test('Should call GetAccountByIdRepository with correct value', async () => {
+    const { sut, getAccountByIdRepositoryStub } = makeSut()
+    const getAccountSpy = jest.spyOn(getAccountByIdRepositoryStub, 'getAccount')
+    await sut.auth(makeFakeAuthentication())
+    expect(getAccountSpy).toHaveBeenCalledWith('any_id')
+  })
 })
