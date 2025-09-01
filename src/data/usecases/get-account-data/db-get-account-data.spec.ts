@@ -38,8 +38,6 @@ const makeFakeGetAccount = (): AccountWithDonationsModel => ({
   id: 'valid_id',
   name: 'valid_name',
   email: 'valid@email.com',
-  role: 'valid_role',
-  password: 'hashed_password',
   slug: 'valid_slug',
   connectedStripeAccountId: 'valid_connected_stripe_account_id',
   donations: [
