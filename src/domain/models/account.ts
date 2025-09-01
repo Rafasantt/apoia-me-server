@@ -10,6 +10,6 @@ export interface AccountModel {
   connectedStripeAccountId?: string
 }
 
-export interface AccountWithDonationsModel extends AccountModel {
+export interface AccountWithDonationsModel extends Omit<AccountModel, 'password' | 'role'> {
   donations: DonationModel[]
 }
