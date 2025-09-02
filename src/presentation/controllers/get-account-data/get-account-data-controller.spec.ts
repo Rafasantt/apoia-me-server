@@ -1,4 +1,4 @@
-import { DonationController } from './get-account-data-controller'
+import { GetAccountDataController } from './get-account-data-controller'
 import { ServerError } from '../../errors'
 import type {
   httpRequest,
@@ -46,13 +46,13 @@ const makeFakeRequest = (): httpRequest => ({
 })
 
 interface SutTypes {
-  sut: DonationController
+  sut: GetAccountDataController
   getAccountDataStub: GetAccountData
 }
 
 const makeSut = (): SutTypes => {
   const getAccountDataStub = makeGetAccountData()
-  const sut = new DonationController(
+  const sut = new GetAccountDataController(
     getAccountDataStub
   )
   return {
