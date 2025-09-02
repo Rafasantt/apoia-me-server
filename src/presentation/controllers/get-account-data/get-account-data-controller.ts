@@ -10,7 +10,7 @@ import {
   ok
 } from '@/presentation/helpers/http/http-helper'
 
-export class DonationController implements Controller {
+export class GetAccountDataController implements Controller {
   constructor (
     private readonly getAccountData: GetAccountData
   ) {}
